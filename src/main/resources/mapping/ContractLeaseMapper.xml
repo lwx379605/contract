@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lmc.shopleasing.dao.ContractLeaseMapper">
+  <resultMap id="BaseResultMap" type="com.lmc.shopleasing.entity.ContractLease">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="lessee_id" jdbcType="VARCHAR" property="lesseeId" />
+    <result column="lessee_Name" jdbcType="VARCHAR" property="lesseeName"/>
+    <result column="booth_id" jdbcType="VARCHAR" property="boothId" />
+    <result column="booth_name" jdbcType="VARCHAR" property="boothName"/>
+    <result column="osskey" jdbcType="VARCHAR" property="osskey" />
+    <result column="effective_time" jdbcType="TIMESTAMP" property="effectiveTime" />
+    <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="del_flag" jdbcType="BIT" property="delFlag" />
+  </resultMap>
+  
+  <select id="findByCondition" parameterType="map" resultMap="BaseResultMap">
+  	SElECT
+  		cl.*,l.name as lessee_id,b.name as booth_name
+  	FROM
+  		s_contract_lease cl 
+  		LEFT JOIN s_lessee l ON cl.lessee_id = l.id
+  		LEFT JOIN s_booth b ON cl.booth_id = b.id
+  	<where>
+  		<if test="boothId!=null and boothId!=''">
+  			AND cl.booth_id = #{boothId}
+  		</if>
+  		<if test="boothName!=null and boothName!=''">
+  			AND b.name LIKE CONCAT(#{boothName},'%')
+  		</if>
+  		<if test="lesseeId!=null and lesseeId!=''">
+  			AND cl.lessee_id = #{lesseeId}
+  		</if>
+  		<if test="lesseeName!=null and lesseeName!=''">
+  			AND l.name LIKE CONCAT(#{lesseeName},'%')
+  		</if>
+  		<if test="delFlag!=null and delFlag!=''">
+  			AND cl.del_Flag = #{delFlag}
+  		</if>
+  	</where>
+  </select>
+</mapper>

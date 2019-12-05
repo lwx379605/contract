@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shopleasing>
+	<setting name="siteName" value="衢州农商城招商平台" />
+	<setting name="siteUrl" value="http://localhost:8000/shopleasing" />
+	<setting name="address" value="中国" />
+	<setting name="phone" value="800-8888888" />
+	<setting name="zipCode" value="400000" />
+	<setting name="email" value="****@163.com" />
+	<setting name="certtext" value="浙ICP备00000000号" />
+	<setting name="allowedRegisterTypes" value="member" />
+	<setting name="registerPoint" value="0" />
+	<setting name="captchaTypes" value="memberLogin,memberRegister,adminLogin,review,consultation,forgotPassword,resetPassword,other" />
+	<setting name="maxFailedLoginAttempts" value="5" />
+	<setting name="passwordLockTime" value="10" />
+	<setting name="safeKeyExpiryTime" value="1440" />
+	<setting name="uploadMaxSize" value="10" />
+	<setting name="uploadImageExtension" value="jpg,jpeg,bmp,gif,png" />
+	<setting name="uploadMediaExtension" value="swf,flv,mp3,wav,avi,rm,rmvb" />
+	<setting name="uploadFileExtension" value="txt,zip,rar,7z,doc,docx,xls,xlsx,ppt,pptx" />
+	<setting name="imageUploadPath" value="/upload/image/" />
+	<setting name="mediaUploadPath" value="/upload/media/" />
+	<setting name="fileUploadPath" value="/upload/file/" />
+	<setting name="isDevelopmentEnabled" value="false" />
+	<setting name="cookiePath" value="/" />
+	<setting name="cookieDomain" value="" />
+	<setting name="locale" value="zh_CN" />
+
+</shopleasing>

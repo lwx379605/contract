@@ -1,0 +1,80 @@
+package com.lmc.shopleasing.entity;
+
+import javax.persistence.*;
+
+@Table(name = "sys_role_office")
+public class SysRoleOffice {
+
+    /**
+     * 编号
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
+
+    /**
+     * 角色编号
+     */
+    @Column(name = "role_id")
+    private String roleId;
+
+    /**
+     * 机构编号
+     */
+    @Column(name = "office_id")
+    private String officeId;
+
+    /**
+     * 获取编号
+     *
+     * @return id - 编号
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * 设置编号
+     *
+     * @param id 编号
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    /**
+     * 获取角色编号
+     *
+     * @return role_id - 角色编号
+     */
+    public String getRoleId() {
+        return roleId;
+    }
+
+    /**
+     * 设置角色编号
+     *
+     * @param roleId 角色编号
+     */
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
+
+    /**
+     * 获取机构编号
+     *
+     * @return office_id - 机构编号
+     */
+    public String getOfficeId() {
+        return officeId;
+    }
+
+    /**
+     * 设置机构编号
+     *
+     * @param officeId 机构编号
+     */
+    public void setOfficeId(String officeId) {
+        this.officeId = officeId;
+    }
+}

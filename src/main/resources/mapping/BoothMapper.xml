@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lmc.shopleasing.dao.BoothMapper">
+  <resultMap id="BaseResultMap" type="com.lmc.shopleasing.entity.Booth">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="building_id" jdbcType="VARCHAR" property="buildingId" />
+    <result column="building_name" jdbcType="VARCHAR" property="buildingName"/>
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="annual_rent" jdbcType="DOUBLE" property="annualRent" />
+    <result column="monthly_rent" jdbcType="DOUBLE" property="monthlyRent" />
+    <result column="renovation_security_deposit" jdbcType="DOUBLE" property="renovationSecurityDeposit" />
+    <result column="security_deposit" jdbcType="DOUBLE" property="securityDeposit" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="del_flag" jdbcType="BIT" property="delFlag" />
+  </resultMap>
+  
+  <select id="findByCondition" parameterType="map" resultMap="BaseResultMap">
+  		SELECT
+  			b.*, bd.name as building_name
+  		FROM 
+  			s_booth b LEFT JOIN s_building bd ON b.building_id = bd.id
+  		<where>
+  			<if test="name!=null and name!=''">
+  				AND b.name LIKE CONCAT(#{name},'%')
+  			</if>
+  			<if test="status!=null and status!=''">
+  				AND b.status = #{status}
+  			</if>
+  			<if test="buildingId!=null and buildingId!=''">
+  				AND b.building_id = #{buildingId}
+  			</if>
+  			<if test="delFlag!=null and delFlag!=''">
+  				And b.del_flag = #{delFlag}
+  			</if>
+  		</where>
+  		ORDER BY create_time DESC
+  </select>
+</mapper>

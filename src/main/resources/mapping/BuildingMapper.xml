@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lmc.shopleasing.dao.BuildingMapper">
+  <resultMap id="BaseResultMap" type="com.lmc.shopleasing.entity.Building">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="regional_id" jdbcType="VARCHAR" property="regionalId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="building_number" jdbcType="VARCHAR" property="buildingNumber" />
+    <result column="location_number" jdbcType="VARCHAR" property="locationNumber" />
+    <result column="room_quantity" jdbcType="INTEGER" property="roomQuantity" />
+    <result column="area" jdbcType="DOUBLE" property="area" />
+    <result column="is_rentable" jdbcType="BIT" property="isRentable" />
+    <result column="is_rent" jdbcType="BIT" property="isRent" />
+    <result column="business_format" jdbcType="VARCHAR" property="businessFormat" />
+    <result column="property_format" jdbcType="VARCHAR" property="propertyFormat" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="del_flag" jdbcType="BIT" property="delFlag" />
+  </resultMap>
+  
+  <select id="findByCondition" parameterType="map" resultMap="BaseResultMap">
+  	SELECT
+  		b.*,r.name as regional_name
+  	FROM
+  		s_building b LEFT JOIN s_regional r ON b.regional_id = r.id
+  	<where>
+  		<if test="regionalId!=null and regionalId!=''">
+  			AND b.regional_id = #{regionalId}
+  		</if>
+  		<if test="name!=null and name!=''">
+  			AND b.name LIKE CONCAT(#{name},'%')
+  		</if>
+  		<if test="regionalName!=null and regionalName!=''">
+  			AND r.name LIKE CONCAT(#{regionalName},'%')
+  		</if>
+  		<if test="delFlag!=null and delFlag!=''">
+  			AND b.del_flag = #{delFlag}
+  		</if>
+  	</where>
+  </select>
+</mapper>

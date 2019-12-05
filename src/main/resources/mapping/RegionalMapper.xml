@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lmc.shopleasing.dao.RegionalMapper">
+  <resultMap id="BaseResultMap" type="com.lmc.shopleasing.entity.Regional">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="area_id" jdbcType="VARCHAR" property="areaId"/>
+    <result column="area_name" jdbcType="VARCHAR" property="areaName"/>
+    <result column="rentable_area" jdbcType="DOUBLE" property="rentableArea"/>
+    <result column="rented_area" jdbcType="DOUBLE" property="rentedArea"/>
+    <result column="rental_rate" jdbcType="DOUBLE" property="rentalRate"/>
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="del_flag" jdbcType="BIT" property="delFlag" />
+  </resultMap>
+  
+  	<select id="findByCondition" parameterType="map" resultMap="BaseResultMap">
+  		SELECT 
+  			r.*,a.full_name as area_name
+  		FROM
+  			s_regional r
+  		LEFT JOIN sys_area a ON r.area_id = a.id
+  		<where>
+  			<if test="name!=null and name!=''">
+  				AND r.name like CONCAT(#{name},'%')
+  			</if>
+  			<if test="type!=null and type!=''">
+  				AND r.type = #{type}
+  			</if>
+  			<if test="areaId!=null and areaId!=''">
+  				AND r.area_id = #{areaId}
+  			</if>
+  			<if test="delFlag!=null and delFlag!=''">
+  				AND r.del_flag = #{delFlag}
+  			</if>
+  		</where>
+  	</select>
+</mapper>

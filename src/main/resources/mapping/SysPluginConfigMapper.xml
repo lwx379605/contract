@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lmc.shopleasing.dao.SysPluginConfigMapper">
+  <resultMap id="BaseResultMap" type="com.lmc.shopleasing.entity.SysPluginConfig">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="orders" jdbcType="INTEGER" property="orders" />
+    <result column="is_enabled" jdbcType="BIT" property="isEnabled" />
+    <result column="plugin_id" jdbcType="VARCHAR" property="pluginId" />
+    <result column="attributes" jdbcType="LONGVARCHAR" typeHandler="com.lmc.shopleasing.global.MapTypeHander" property="attributes" />
+  </resultMap>
+</mapper>

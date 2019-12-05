@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lmc.shopleasing.dao.SysAreaMapper">
+  <resultMap id="BaseResultMap" type="com.lmc.shopleasing.entity.SysArea">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="orders" jdbcType="INTEGER" property="orders" />
+    <result column="grade" jdbcType="INTEGER" property="grade" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="tree_path" jdbcType="VARCHAR" property="treePath" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="full_name" jdbcType="LONGVARCHAR" property="fullName" />
+  </resultMap>
+</mapper>
