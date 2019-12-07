@@ -6,10 +6,13 @@
       WARNING - @mbg.generated
     -->
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="contract_code" jdbcType="VARCHAR" property="contractCode" />
+    <result column="contract_amount" jdbcType="DOUBLE" property="contractAmount" />
+    <result column="contract_type" jdbcType="VARCHAR" property="contractType" />
+    <result column="payment_time" jdbcType="TIMESTAMP" property="paymentTime" />
+    <result column="payment_amount" jdbcType="DOUBLE" property="paymentAmount" />
     <result column="lessee_id" jdbcType="VARCHAR" property="lesseeId" />
-    <result column="lessee_Name" jdbcType="VARCHAR" property="lesseeName"/>
     <result column="booth_id" jdbcType="VARCHAR" property="boothId" />
-    <result column="booth_name" jdbcType="VARCHAR" property="boothName"/>
     <result column="osskey" jdbcType="VARCHAR" property="osskey" />
     <result column="effective_time" jdbcType="TIMESTAMP" property="effectiveTime" />
     <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime" />
@@ -22,7 +25,7 @@
   
   <select id="findByCondition" parameterType="map" resultMap="BaseResultMap">
   	SElECT
-  		cl.*,l.name as lessee_id,b.name as booth_name
+  		cl.*,l.legal_representative as lessee_id,b.name as booth_name
   	FROM
   		s_contract_lease cl 
   		LEFT JOIN s_lessee l ON cl.lessee_id = l.id

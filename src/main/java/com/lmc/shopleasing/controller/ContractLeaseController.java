@@ -63,9 +63,19 @@ public class ContractLeaseController {
     	if (StringUtils.isBlank(contractLease.getBoothId())) {
     		return Results.badRequest("摊位id不能为空");
     	}
+    	if (StringUtils.isBlank(contractLease.getContractCode())) {
+    		return Results.badRequest("合同编码不能为空");
+    	}
     	Booth booth = boothService.findById(Integer.valueOf(contractLease.getBoothId()));
     	if (booth==null) {
     		return Results.badRequest("摊位不存在");
+    	}
+    	Condition condition = new Condition(ContractLease.class);
+    	Criteria criteria = condition.createCriteria();
+    	criteria.andEqualTo("contractCode", contractLease.getContractCode());
+    	Integer count = contractLeaseService.selectCountByCondition(condition);
+    	if (count>0) {
+    		return Results.badRequest("合同编码重复！");
     	}
     	contractLease.setLesseeId(lessee.getId()+"");
     	contractLease.setBoothId(booth.getId()+"");
@@ -89,6 +99,18 @@ public class ContractLeaseController {
     public ResponseEntity update(ContractLease contractLease) {
     	if (contractLease.getId()==null) {
     		return Results.badRequest("id不能为空");
+    	}
+    	if (StringUtils.isNotBlank(contractLease.getContractCode())) {
+    		Condition condition = new Condition(ContractLease.class);
+    		Criteria criteria = condition.createCriteria();
+    		criteria.andEqualTo("contractCode", contractLease.getContractCode());
+    		List<ContractLease> list = contractLeaseService.findByCondition(condition);
+    		if (list!=null && list.size()>0) {
+    			ContractLease lease = list.get(0);
+    			if (!contractLease.getId().equals(lease.getId())) {
+    				return Results.badRequest("合同编码重复！");
+    			}
+    		}
     	}
     	contractLease.setDelFlag(null);
     	contractLease.setCreateTime(null);

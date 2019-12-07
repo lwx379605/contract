@@ -51,7 +51,7 @@ public class CodeGenerator {
        // genCode("sys_office");
     // genCode("sys_role_office");
       //genCode("sys_menu");
-       genCode("s_building");
+       genCode("s_contract_lease");
        //genCode("sys_user_role");
       // genCode("sys_plugin_config");
        //genCode("sys_role_menu");

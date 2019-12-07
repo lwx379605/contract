@@ -7,7 +7,7 @@ import com.lmc.shopleasing.core.Mapper;
 import com.lmc.shopleasing.entity.ContractLease;
 
 public interface ContractLeaseMapper extends Mapper<ContractLease> {
-
+	
 	/**
 	 * 合同租期列表
 	 * @param map

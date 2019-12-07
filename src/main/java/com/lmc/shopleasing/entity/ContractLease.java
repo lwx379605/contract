@@ -10,31 +10,49 @@ public class ContractLease {
     private Integer id;
 
     /**
+     * 合同编码
+     */
+    @Column(name = "contract_code")
+    private String contractCode;
+
+    /**
+     * 合同金额
+     */
+    @Column(name = "contract_amount")
+    private Double contractAmount;
+
+    /**
+     * 合同类型（1:解除合同，2:转租协议，3:早市解除合同，4:二层以上，5:冷库，6:商铺，7:仓库）
+     */
+    @Column(name = "contract_type")
+    private String contractType;
+
+    /**
+     * 付款时间
+     */
+    @Column(name = "payment_time")
+    private Date paymentTime;
+
+    /**
+     * 付款金额
+     */
+    @Column(name = "payment_amount")
+    private Double paymentAmount;
+
+    /**
      * 承租人
      */
     @Column(name = "lessee_id")
     private String lesseeId;
-    
-    /**
-     * 承租人名称
-     */
-    @Transient
-    private String lesseeName;
 
     /**
      * 承租摊位
      */
     @Column(name = "booth_id")
     private String boothId;
-    
-    /**
-     * 承租摊位
-     */
-    @Transient
-    private String boothName;
 
     /**
-     * 附件
+     * 附件（多个以逗号分隔）
      */
     private String osskey;
 
@@ -80,7 +98,30 @@ public class ContractLease {
     @Column(name = "del_flag")
     private Boolean delFlag;
 
-    /**
+    @Transient
+    private String lesseeName;
+    
+    @Transient
+    private String boothName;
+    
+    
+    public String getLesseeName() {
+		return lesseeName;
+	}
+
+	public void setLesseeName(String lesseeName) {
+		this.lesseeName = lesseeName;
+	}
+
+	public String getBoothName() {
+		return boothName;
+	}
+
+	public void setBoothName(String boothName) {
+		this.boothName = boothName;
+	}
+
+	/**
      * @return id
      */
     public Integer getId() {
@@ -92,6 +133,96 @@ public class ContractLease {
      */
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    /**
+     * 获取合同编码
+     *
+     * @return contract_code - 合同编码
+     */
+    public String getContractCode() {
+        return contractCode;
+    }
+
+    /**
+     * 设置合同编码
+     *
+     * @param contractCode 合同编码
+     */
+    public void setContractCode(String contractCode) {
+        this.contractCode = contractCode;
+    }
+
+    /**
+     * 获取合同金额
+     *
+     * @return contract_amount - 合同金额
+     */
+    public Double getContractAmount() {
+        return contractAmount;
+    }
+
+    /**
+     * 设置合同金额
+     *
+     * @param contractAmount 合同金额
+     */
+    public void setContractAmount(Double contractAmount) {
+        this.contractAmount = contractAmount;
+    }
+
+    /**
+     * 获取合同类型（1:解除合同，2:转租协议，3:早市解除合同，4:二层以上，5:冷库，6:商铺，7:仓库）
+     *
+     * @return contract_type - 合同类型（1:解除合同，2:转租协议，3:早市解除合同，4:二层以上，5:冷库，6:商铺，7:仓库）
+     */
+    public String getContractType() {
+        return contractType;
+    }
+
+    /**
+     * 设置合同类型（1:解除合同，2:转租协议，3:早市解除合同，4:二层以上，5:冷库，6:商铺，7:仓库）
+     *
+     * @param contractType 合同类型（1:解除合同，2:转租协议，3:早市解除合同，4:二层以上，5:冷库，6:商铺，7:仓库）
+     */
+    public void setContractType(String contractType) {
+        this.contractType = contractType;
+    }
+
+    /**
+     * 获取付款时间
+     *
+     * @return payment_time - 付款时间
+     */
+    public Date getPaymentTime() {
+        return paymentTime;
+    }
+
+    /**
+     * 设置付款时间
+     *
+     * @param paymentTime 付款时间
+     */
+    public void setPaymentTime(Date paymentTime) {
+        this.paymentTime = paymentTime;
+    }
+
+    /**
+     * 获取付款金额
+     *
+     * @return payment_amount - 付款金额
+     */
+    public Double getPaymentAmount() {
+        return paymentAmount;
+    }
+
+    /**
+     * 设置付款金额
+     *
+     * @param paymentAmount 付款金额
+     */
+    public void setPaymentAmount(Double paymentAmount) {
+        this.paymentAmount = paymentAmount;
     }
 
     /**
@@ -131,18 +262,18 @@ public class ContractLease {
     }
 
     /**
-     * 获取附件
+     * 获取附件（多个以逗号分隔）
      *
-     * @return osskey - 附件
+     * @return osskey - 附件（多个以逗号分隔）
      */
     public String getOsskey() {
         return osskey;
     }
 
     /**
-     * 设置附件
+     * 设置附件（多个以逗号分隔）
      *
-     * @param osskey 附件
+     * @param osskey 附件（多个以逗号分隔）
      */
     public void setOsskey(String osskey) {
         this.osskey = osskey;
@@ -273,38 +404,4 @@ public class ContractLease {
     public void setDelFlag(Boolean delFlag) {
         this.delFlag = delFlag;
     }
-
-    /**
-     * 获取承租人名称
-     * @return lesseeName - 承租人名称
-     */
-	public String getLesseeName() {
-		return lesseeName;
-	}
-
-	/**
-	 * 设置承租人名称
-	 * @param lesseeName 承租人名称
-	 */
-	public void setLesseeName(String lesseeName) {
-		this.lesseeName = lesseeName;
-	}
-
-	/**
-	 * 获取摊位名称
-	 * @return boothName 摊位名称
-	 */
-	public String getBoothName() {
-		return boothName;
-	}
-
-	/**
-	 * 设置摊位名称
-	 * @param boothName 摊位名称
-	 */
-	public void setBoothName(String boothName) {
-		this.boothName = boothName;
-	}
-    
-    
 }

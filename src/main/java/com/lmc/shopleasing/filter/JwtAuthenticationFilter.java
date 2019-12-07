@@ -2,6 +2,7 @@ package com.lmc.shopleasing.filter;
 
 import com.lmc.shopleasing.service.SysUserService;
 import com.lmc.shopleasing.util.JwtTokenUtil;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
@@ -38,6 +39,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter
     @Value("${jwt.header}")
     private String tokenHeader;
 
+    private static final String ORIGIN ="Origin";
+
     private AuthenticationTrustResolver trustResolver = new AuthenticationTrustResolverImpl();;
 
     @Autowired
@@ -47,10 +50,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter
     private SysUserService userDetailsService;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException
     {
+//        if(StringUtils.isNotBlank(request.getHeader(ORIGIN))){
+//            String origin = request.getHeader(ORIGIN);
+//            response.addHeader("Access-Control-Allow-Origin",origin);
+//            response.addHeader("Access-Control-Allow-Methods" ,"*");
+//            response.addHeader("Access-Control-Allow-Credentials","true");
+//            response.addHeader("Access-Control-Allow-Headers" ,"*");
+//        }
+//        if(StringUtils.equals("OPTIONS",request.getMethod())){
+//            response.getWriter().print("OK");
+//            response.getWriter().flush();
+//            return;
+//        }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String token = httpServletRequest.getHeader(this.tokenHeader);
+        String token = request.getHeader(this.tokenHeader);
         if (token != null && (authentication == null || trustResolver.isAnonymous(authentication))) {
             if (jwtTokenUtil.validateToken(token))
             {
@@ -64,11 +79,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter
                 String username = jwtTokenUtil.getUserNameFromToken(token);
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, authorityList);
-                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 /*权限设置*/
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         }
-        filterChain.doFilter(httpServletRequest,httpServletResponse);
+        filterChain.doFilter(request,response);
     }
 }
