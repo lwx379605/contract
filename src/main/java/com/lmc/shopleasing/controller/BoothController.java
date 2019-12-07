@@ -56,6 +56,7 @@ public class BoothController {
     	booth.setDelFlag(false);//默认未删除
     	booth.setCreateTime(new Date());
     	booth.setCreateBy("1");
+    	booth.setStatus("3");//摊位状态 1正常出租 2即将到期 3可以出租
         boothService.save(booth);
         return Results.OK;
     }
