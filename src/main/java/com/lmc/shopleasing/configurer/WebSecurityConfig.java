@@ -6,19 +6,15 @@ import com.lmc.shopleasing.global.Setting;
 import com.lmc.shopleasing.security.*;
 import com.lmc.shopleasing.service.CaptchaService;
 import com.lmc.shopleasing.service.SysUserService;
-import com.lmc.shopleasing.util.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.ehcache.CacheManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
-import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -27,12 +23,15 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.cache.EhCacheBasedUserCache;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 
 /**
  * @author lmc
@@ -58,6 +57,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private AuthenticationSuccessHandler successAuthenticationHandler;
 
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setExposedHeaders(Arrays.asList("Authorization"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
+
     /**
      * security检验忽略的请求，比如静态资源不需要登录的可在本处配置
      * @param web
@@ -78,13 +91,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(captchaFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter,UsernamePasswordAuthenticationFilter.class)
                 .formLogin()
-                .loginProcessingUrl("/login").successHandler(successAuthenticationHandler)
+                .loginProcessingUrl("/login").permitAll().successHandler(successAuthenticationHandler)
                 .failureHandler(new FailureAuthenticationHandler())
                 .and().logout().logoutUrl("/logout").logoutSuccessHandler(restLogoutSuccessHandler).invalidateHttpSession(true)
                 .and().authorizeRequests().antMatchers("/upload/**").permitAll()
                 .and().authorizeRequests().anyRequest().authenticated() //其它的请求要求必须有身份认证
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().csrf().disable().cors().disable().headers().cacheControl();
+                .and().cors().configurationSource(corsConfigurationSource()).and().csrf().disable().headers().defaultsDisabled().cacheControl();
                 /*requireCsrfProtectionMatcher(new RequestMatcher() {
                     @Override
                     public boolean matches(HttpServletRequest httpServletRequest) {

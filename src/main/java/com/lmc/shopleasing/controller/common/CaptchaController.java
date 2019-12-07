@@ -26,7 +26,9 @@ public class CaptchaController {
 	 */
 	@GetMapping(path = "/code")
 	public String captcha(String captchaId, HttpServletResponse response) {
-		return captchaService.createCode(captchaId);
+		String code = captchaService.createCode(captchaId);
+		System.out.println(code);
+		return code;
 	}
 
 }
