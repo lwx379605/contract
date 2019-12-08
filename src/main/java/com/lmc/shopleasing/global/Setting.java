@@ -2094,8 +2094,7 @@ public class Setting implements Serializable {
 	 */
 	public String resolveImageUploadPath(Map<String, Object> model) {
 		try {
-			//TODO
-			return null;
+			return getImageUploadPath();
 //			return FreeMarkerUtils.process(getImageUploadPath(), model);
 //		} catch (IOException e) {
 //			throw new RuntimeException(e.getMessage(), e);
@@ -2122,8 +2121,7 @@ public class Setting implements Serializable {
 	 */
 	public String resolveMediaUploadPath(Map<String, Object> model) {
 		try {
-			//TODO
-			return null;
+			return getMediaUploadPath();
 //			return FreeMarkerUtils.process(getMediaUploadPath(), model);
 //		} catch (IOException e) {
 //			throw new RuntimeException(e.getMessage(), e);
@@ -2150,7 +2148,6 @@ public class Setting implements Serializable {
 	 */
 	public String resolveFileUploadPath(Map<String, Object> model) {
 		try {
-			//TODO
 			return getFileUploadPath();
 //			return FreeMarkerUtils.process(, model);
 //		} catch (IOException e) {

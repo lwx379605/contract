@@ -20,8 +20,8 @@ import org.springframework.stereotype.Component;
 @Component("localStoragePlugin")
 public class LocalStoragePlugin extends StoragePlugin {
 
-	@Autowired
-	private ServletContext servletContext;
+//	@Autowired
+//	private ServletContext servletContext;
 
 	@Override
 	public String getName() {
@@ -30,7 +30,8 @@ public class LocalStoragePlugin extends StoragePlugin {
 
 	@Override
 	public void upload(String path, File file, String contentType) {
-		File destFile = new File(servletContext.getRealPath(path));
+		//File destFile = new File(servletContext.getRealPath(path));
+		File destFile = new File(path);
 		try {
 			FileUtils.moveFile(file, destFile);
 		} catch (IOException e) {
@@ -41,7 +42,7 @@ public class LocalStoragePlugin extends StoragePlugin {
 	@Override
 	public String getUrl(String path) {
 		Setting setting = SystemUtils.getSetting();
-		return setting.getSiteUrl() + path;
+		return setting.getSiteUrl() + path.replaceAll("C:/shopleasing/","");
 	}
 
 }

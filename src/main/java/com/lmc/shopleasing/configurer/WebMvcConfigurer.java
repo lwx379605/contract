@@ -80,9 +80,9 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/templates/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX+"/templates/");
         registry.addResourceHandler("/*.html","/*.css","/*.js","/static/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX+"/static/");
         registry.addResourceHandler("/webapi/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX+"/webapi/");
-        registry.addResourceHandler("/upload/**").addResourceLocations("/upload/");
         registry.addResourceHandler("/swagger-ui.html").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX+"/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX+"/META-INF/resources/webjars/");
+        registry.addResourceHandler("/localStorage/**").addResourceLocations("file:C:/shopleasing/localStorage/");
         super.addResourceHandlers(registry);
     }
 

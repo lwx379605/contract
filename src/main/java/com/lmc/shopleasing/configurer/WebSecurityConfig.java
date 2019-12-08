@@ -79,7 +79,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/*.html","/*.css","/*.js","/templates/**", "/static/**","/webapi/**","/webjars/**","/v2/api-docs",//swagger api json
                 "/swagger-resources/**",//用来获取支持的动作
-                "/swagger-ui.html","/common/**","/druid/**");//
+                "/swagger-ui.html","/common/**","/druid/**",
+                "/localStorage/**"
+           );//
     }
 
     @Override
@@ -94,7 +96,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/login").permitAll().successHandler(successAuthenticationHandler)
                 .failureHandler(new FailureAuthenticationHandler())
                 .and().logout().logoutUrl("/logout").logoutSuccessHandler(restLogoutSuccessHandler).invalidateHttpSession(true)
-                .and().authorizeRequests().antMatchers("/upload/**").permitAll()
+                .and().authorizeRequests().antMatchers("/upload/**","/localStorage/**").permitAll()
                 .and().authorizeRequests().anyRequest().authenticated() //其它的请求要求必须有身份认证
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().cors().configurationSource(corsConfigurationSource()).and().csrf().disable().headers().defaultsDisabled().cacheControl();
