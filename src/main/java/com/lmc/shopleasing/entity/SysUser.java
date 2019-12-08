@@ -15,13 +15,13 @@ public class SysUser extends BaseEntity<Integer>{
      * 归属公司
      */
     @Column(name = "company_id")
-    private String companyId;
+    private Integer companyId;
 
     /**
      * 归属部门
      */
     @Column(name = "office_id")
-    private String officeId;
+    private Integer officeId;
 
     /**
      * 登录名
@@ -120,7 +120,7 @@ public class SysUser extends BaseEntity<Integer>{
      *
      * @return company_id - 归属公司
      */
-    public String getCompanyId() {
+    public Integer getCompanyId() {
         return companyId;
     }
 
@@ -129,7 +129,7 @@ public class SysUser extends BaseEntity<Integer>{
      *
      * @param companyId 归属公司
      */
-    public void setCompanyId(String companyId) {
+    public void setCompanyId(Integer companyId) {
         this.companyId = companyId;
     }
 
@@ -138,7 +138,7 @@ public class SysUser extends BaseEntity<Integer>{
      *
      * @return office_id - 归属部门
      */
-    public String getOfficeId() {
+    public Integer getOfficeId() {
         return officeId;
     }
 
@@ -147,7 +147,7 @@ public class SysUser extends BaseEntity<Integer>{
      *
      * @param officeId 归属部门
      */
-    public void setOfficeId(String officeId) {
+    public void setOfficeId(Integer officeId) {
         this.officeId = officeId;
     }
 
