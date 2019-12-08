@@ -24,7 +24,7 @@ public class ContractBudgetRecordController {
     private ContractLeaseService contractLeaseService;
 
     @PostMapping("/contractPay")
-    public ResponseEntity contractPay(String contractCode,Double amount,String paymentType) {
+    public ResponseEntity contractPay(String contractCode,Double amount,String paymentType,String itemType) {
     	if (StringUtils.isBlank(contractCode)) {
     		return Results.badRequest("合同编码不能为空");
     	}
@@ -34,6 +34,10 @@ public class ContractBudgetRecordController {
     	if (StringUtils.isBlank(paymentType)) {//1:收入,2:支出
     		return Results.badRequest("支付类型不能为空");
     	}
+		if (StringUtils.isBlank(itemType)) {//itemType 支付项类型 1、租金，2、保证金，3、物业费，4、卫生费
+			return Results.badRequest("支付项类型不能为空");
+		}
+
     	if (!StringUtils.equals(paymentType, "1") && !StringUtils.equals(paymentType, "2")) {
     		return Results.badRequest("支付类型不存在");
     	}
@@ -41,7 +45,7 @@ public class ContractBudgetRecordController {
     	if (lease == null) {
     		return Results.badRequest("合同不存在");
     	}
-        contractBudgetRecordService.contractPay(contractCode,amount,paymentType,lease);
+        contractBudgetRecordService.contractPay(contractCode,amount,paymentType,itemType,lease);
         return Results.OK;
     }
 

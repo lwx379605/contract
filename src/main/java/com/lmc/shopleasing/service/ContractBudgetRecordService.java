@@ -15,9 +15,10 @@ public interface ContractBudgetRecordService extends Service<ContractBudgetRecor
 	 * @param contractCode 合同编码
 	 * @param amount 金额
 	 * @param paymentType 支付类型 1:收入,2:支出
+	 * @param paymentType 支付项类型 1、租金，2、保证金，3、物业费，4、卫生费 5、其他
 	 * @param lease 租赁合同
 	 */
-	void contractPay(String contractCode, Double amount, String paymentType, ContractLease lease);
+	void contractPay(String contractCode, Double amount, String paymentType,String itemType, ContractLease lease);
 	
 	/**
 	 * 按时间支付类型统计金额

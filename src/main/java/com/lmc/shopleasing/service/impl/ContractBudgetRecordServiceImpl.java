@@ -30,7 +30,7 @@ public class ContractBudgetRecordServiceImpl extends AbstractService<ContractBud
     private ContractLeaseService contractLeaseService;
 
 	@Override
-	public void contractPay(String contractCode, Double amount, String paymentType, ContractLease lease) {
+	public void contractPay(String contractCode, Double amount, String paymentType,String itemType, ContractLease lease) {
 		Date currDate = new Date();
 		ContractBudgetRecord budgetRecord = new ContractBudgetRecord();
 		budgetRecord.setContractCode(contractCode);
@@ -38,6 +38,7 @@ public class ContractBudgetRecordServiceImpl extends AbstractService<ContractBud
 		budgetRecord.setPaymentType(paymentType);
 		budgetRecord.setPaymentTime(currDate);
 		budgetRecord.setCreateTime(currDate);
+		budgetRecord.setItemType(itemType);
 		save(budgetRecord);
 		Double paymentAmount = null;
 		if (StringUtils.equals(paymentType, "1")) {//支付类型 1:收入,2:支出

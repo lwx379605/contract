@@ -8,6 +8,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="contract_code" jdbcType="VARCHAR" property="contractCode" />
     <result column="payment_type" jdbcType="VARCHAR" property="paymentType" />
+	<result column="item_type" jdbcType="VARCHAR" property="itemType" />
     <result column="payment_time" jdbcType="TIMESTAMP" property="paymentTime" />
     <result column="amount" jdbcType="DOUBLE" property="amount" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />

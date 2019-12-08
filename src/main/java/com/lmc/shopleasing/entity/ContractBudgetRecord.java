@@ -26,6 +26,12 @@ public class ContractBudgetRecord {
     private String paymentType;
 
     /**
+     * 支付项类型 1、租金，2、保证金，3、物业费，4、卫生费 5、其他
+     */
+    @Column(name = "item_type")
+    private String itemType;
+
+    /**
      * 支付时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8") 
@@ -146,5 +152,21 @@ public class ContractBudgetRecord {
      */
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    /**
+     *  支付项类型 1、租金，2、保证金，3、物业费，4、卫生费 5、其他
+     * @return
+     */
+    public String getItemType() {
+        return itemType;
+    }
+
+    /**
+     * 支付项类型 1、租金，2、保证金，3、物业费，4、卫生费 5、其他
+     * @param itemType
+     */
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
     }
 }
