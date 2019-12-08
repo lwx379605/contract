@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lmc.shopleasing.dao.ContractBudgetRecordMapper">
+  <resultMap id="BaseResultMap" type="com.lmc.shopleasing.entity.ContractBudgetRecord">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="contract_code" jdbcType="VARCHAR" property="contractCode" />
+    <result column="payment_type" jdbcType="VARCHAR" property="paymentType" />
+    <result column="payment_time" jdbcType="TIMESTAMP" property="paymentTime" />
+    <result column="amount" jdbcType="DOUBLE" property="amount" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  
+  <select id="countAmountByPaymentTimeAndPaymentType" resultType="String">
+  	SELECT
+  		SUM(amount)
+  	FROM
+  		s_contract_budget_record
+  	<where>
+  		<if test="paymentType!=null and paymentType!=''">
+  			AND payment_type = #{paymentType}
+  		</if>
+  		<if test="startTime!=null and endTime!=null">
+  			AND payment_time BETWEEN #{startTime} AND #{endTime}
+  		</if>
+  	</where>
+  </select>
+</mapper>

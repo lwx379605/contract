@@ -82,6 +82,8 @@ public class ContractLeaseController {
     	contractLease.setDelFlag(false);//默认未删除
     	contractLease.setCreateTime(new Date());
     	contractLease.setCreateBy("1");
+    	contractLease.setPaymentAmount(null);
+    	contractLease.setPaymentTime(null);
         contractLeaseService.save(contractLease);
         return Results.OK;
     }
@@ -116,6 +118,8 @@ public class ContractLeaseController {
     	contractLease.setCreateTime(null);
     	contractLease.setCreateBy(null);
     	contractLease.setUpdateTime(new Date());
+    	contractLease.setPaymentAmount(null);
+    	contractLease.setPaymentTime(null);
     	contractLease.setUpdateBy("1");
         contractLeaseService.update(contractLease);
         return Results.OK;
