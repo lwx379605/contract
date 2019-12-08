@@ -47,4 +47,10 @@ public interface SysMenuService extends Service<SysMenu> {
      */
     List<SysMenu>  findByUser(Boolean showHidden);
 
+    /**
+     * 查找用户拥有的菜单
+     * @return 用户拥有的菜单
+     */
+    List<SysMenu> findByUserName(String username,Boolean showHidden);
+
 }

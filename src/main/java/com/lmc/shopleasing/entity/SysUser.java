@@ -446,4 +446,26 @@ public class SysUser extends BaseEntity<Integer>{
     public void setSysRoles(Set<SysRole> sysRoles) {
         this.sysRoles = sysRoles;
     }
+
+    @Transient
+    private String companyName;
+
+    @Transient
+    private String officeName;
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getOfficeName() {
+        return officeName;
+    }
+
+    public void setOfficeName(String officeName) {
+        this.officeName = officeName;
+    }
 }

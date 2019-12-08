@@ -77,6 +77,49 @@ public class SysMenuServiceImpl extends AbstractService<SysMenu> implements SysM
     }
 
     @Override
+    public List<SysMenu> findByUserName(String username,Boolean showHidden) {
+        if(username==null){
+            return Collections.emptyList();
+        }
+        List<SysMenu> sysMenuList = sysMenuMapper.findByLoginName(username);
+        List<Integer> excludes= new ArrayList<>();
+
+        CollectionUtils.filter(sysMenuList, new Predicate() {
+            @Override
+            public boolean evaluate(Object object) {
+                SysMenu sysMenu = (SysMenu)object;
+                if(!showHidden && StringUtils.equals(sysMenu.getIsShow(),"0") ){
+                    excludes.add(sysMenu.getId());
+//                    System.out.println("hidden  -->  "+sysMenu.getId());
+                    return false;
+                }
+                if(StringUtils.equals(sysMenu.getIsShow(),"0") || StringUtils.equals(sysMenu.getDelFlag(),"1")){
+                    excludes.add(sysMenu.getId());
+//                    System.out.println("delete  -->  "+sysMenu.getId());
+                    return false;
+                }
+                return true;
+            }
+        });
+        if(excludes.size()>0){
+            CollectionUtils.filter(sysMenuList, new Predicate() {
+                @Override
+                public boolean evaluate(Object object) {
+                    SysMenu sysMenu = (SysMenu)object;
+                    List<Integer> parentIds = Arrays.asList(sysMenu.getParentIds());
+                    if(CollectionUtils.intersection(excludes,parentIds).isEmpty()){
+                        return true;
+                    }
+//                    System.out.println("filter  --- > " + sysMenu.getId());
+                    return false;
+                }
+            });
+        }
+        sort(sysMenuList);
+        return sysMenuList;
+    }
+
+    @Override
     public List<SysMenu> findByUser(Boolean showHidden) {
         SysUser userDetail = SysUserHolder.getUserDetail();
         if(userDetail==null || userDetail.getLoginName()==null){

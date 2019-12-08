@@ -2,12 +2,11 @@ package com.lmc.shopleasing.service.impl;
 
 import com.google.common.collect.Lists;
 import com.lmc.shopleasing.core.AbstractService;
+import com.lmc.shopleasing.dao.SysOfficeMapper;
 import com.lmc.shopleasing.dao.SysUserMapper;
 import com.lmc.shopleasing.dao.SysUserRoleMapper;
-import com.lmc.shopleasing.entity.CustomUserDetails;
-import com.lmc.shopleasing.entity.SysRole;
-import com.lmc.shopleasing.entity.SysUser;
-import com.lmc.shopleasing.entity.SysUserRole;
+import com.lmc.shopleasing.entity.*;
+import com.lmc.shopleasing.service.SysMenuService;
 import com.lmc.shopleasing.service.SysUserService;
 import com.lmc.shopleasing.util.SpringUtils;
 import com.lmc.shopleasing.util.SysUserHolder;
@@ -59,8 +58,14 @@ public class SysUserServiceImpl extends AbstractService<SysUser> implements SysU
     @Resource
     private SysUserRoleMapper sysUserRoleMapper;
 
+    @Resource
+    private SysOfficeMapper sysOfficeMapper;
+
     @Autowired(required = true)
     private UserCache userCache;
+
+    @Resource
+    private SysMenuService sysMenuService;
 
     @Override
     public int updatePassword(@NotEmpty String loginName, @NotEmpty String password) {
@@ -86,18 +91,18 @@ public class SysUserServiceImpl extends AbstractService<SysUser> implements SysU
         if(sysUser==null){
             throw new UsernameNotFoundException("登录账号为"+userName+"的用户不存在");
         }
+        SysOffice company = sysOfficeMapper.selectByPrimaryKey(sysUser.getCompanyId());
+        sysUser.setCompanyName(company!=null?company.getName():"");
+        SysOffice office = sysOfficeMapper.selectByPrimaryKey(sysUser.getOfficeId());
+        sysUser.setOfficeName(office!=null?office.getName():"");
         CustomUserDetails userDetails = new CustomUserDetails(sysUser);
-        //TODO
+        List<SysMenu> sysMenus = sysMenuService.findByUserName(userName,false);
         List<GrantedAuthority> authorities = new ArrayList<>();
-        if(StringUtils.equals(userName,"lmc")){
-            authorities.add(new SimpleGrantedAuthority("abc"));
-        }else if(StringUtils.equals(userName,"fd")){
-            authorities.add(new SimpleGrantedAuthority("sudo"));
-        }else {
-            authorities.add(new SimpleGrantedAuthority("other"));
+        for(SysMenu sysMenu : sysMenus){
+            if(StringUtils.isNotEmpty(sysMenu.getPermission())){
+                authorities.add(new SimpleGrantedAuthority(sysMenu.getPermission()));
+            }
         }
-
-
         userDetails.setAuthorities(authorities);
         this.userCache.putUserInCache(userDetails);
         return userDetails;
