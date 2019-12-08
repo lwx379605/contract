@@ -20,7 +20,7 @@ import static com.lmc.shopleasing.ProjectConstant.*;
  */
 public class CodeGenerator {
     //JDBC配置，请修改为你项目的实际配置
-    private static final String JDBC_URL = "jdbc:mysql://127.0.0.1:3306/shopleasing?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT";
+    private static final String JDBC_URL = "jdbc:mysql://139.224.132.64:3306/shopleasing?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT";
     private static final String JDBC_PASSWORD = "root";
     private static final String JDBC_USERNAME = "root";
     
@@ -51,7 +51,7 @@ public class CodeGenerator {
        // genCode("sys_office");
     // genCode("sys_role_office");
       //genCode("sys_menu");
-       genCode("sys_dict");
+       genCode("s_booth_statistics");
        //genCode("sys_user_role");
       // genCode("sys_plugin_config");
        //genCode("sys_role_menu");
@@ -65,7 +65,7 @@ public class CodeGenerator {
      */
     public static void genCode(String... tableNames) {
         for (String tableName : tableNames) {
-            genCode(tableName,tableNameConvertUpperCamel(tableName.substring(0,tableName.length())));
+            genCode(tableName,tableNameConvertUpperCamel(tableName.substring(2,tableName.length())));
 //            genCode(tableName,tableNameConvertUpperCamel(tableName));
         }
     }
