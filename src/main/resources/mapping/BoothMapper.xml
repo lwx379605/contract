@@ -6,7 +6,7 @@
       WARNING - @mbg.generated
     -->
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="building_id" jdbcType="VARCHAR" property="buildingId" />
+    <result column="building_id" jdbcType="INTEGER" property="buildingId" />
     <result column="building_name" jdbcType="VARCHAR" property="buildingName"/>
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="status" jdbcType="VARCHAR" property="status" />
@@ -34,7 +34,7 @@
   			<if test="status!=null and status!=''">
   				AND b.status = #{status}
   			</if>
-  			<if test="buildingId!=null and buildingId!=''">
+  			<if test="buildingId!=null">
   				AND b.building_id = #{buildingId}
   			</if>
   			<if test="delFlag!=null and delFlag!=''">

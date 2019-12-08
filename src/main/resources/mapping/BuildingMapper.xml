@@ -6,7 +6,7 @@
       WARNING - @mbg.generated
     -->
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="regional_id" jdbcType="VARCHAR" property="regionalId" />
+    <result column="regional_id" jdbcType="INTEGER" property="regionalId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="building_number" jdbcType="VARCHAR" property="buildingNumber" />
     <result column="location_number" jdbcType="VARCHAR" property="locationNumber" />
@@ -29,7 +29,7 @@
   	FROM
   		s_building b LEFT JOIN s_regional r ON b.regional_id = r.id
   	<where>
-  		<if test="regionalId!=null and regionalId!=''">
+  		<if test="regionalId!=null">
   			AND b.regional_id = #{regionalId}
   		</if>
   		<if test="name!=null and name!=''">

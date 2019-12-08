@@ -8,7 +8,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="type" jdbcType="VARCHAR" property="type" />
-    <result column="area_id" jdbcType="VARCHAR" property="areaId"/>
+    <result column="area_id" jdbcType="INTEGER" property="areaId"/>
     <result column="area_name" jdbcType="VARCHAR" property="areaName"/>
     <result column="rentable_area" jdbcType="DOUBLE" property="rentableArea"/>
     <result column="rented_area" jdbcType="DOUBLE" property="rentedArea"/>
@@ -33,7 +33,7 @@
   			<if test="type!=null and type!=''">
   				AND r.type = #{type}
   			</if>
-  			<if test="areaId!=null and areaId!=''">
+  			<if test="areaId!=null">
   				AND r.area_id = #{areaId}
   			</if>
   			<if test="delFlag!=null and delFlag!=''">

@@ -53,14 +53,14 @@ public class ContractLeaseController {
     	if (contractLease.getExpireTime()==null) {
     		return Results.badRequest("失效时间不能为空");
     	}
-    	if (StringUtils.isBlank(contractLease.getLesseeId())) {
+    	if (contractLease.getLesseeId()==null) {
     		return Results.badRequest("承租人id不能为空");
     	}
     	Lessee lessee = lesseeService.findById(Integer.valueOf(contractLease.getLesseeId()));
     	if (lessee==null) {
     		return Results.badRequest("承租人不存在");
     	}
-    	if (StringUtils.isBlank(contractLease.getBoothId())) {
+    	if (contractLease.getBoothId()==null) {
     		return Results.badRequest("摊位id不能为空");
     	}
     	if (StringUtils.isBlank(contractLease.getContractCode())) {
@@ -77,8 +77,8 @@ public class ContractLeaseController {
     	if (count>0) {
     		return Results.badRequest("合同编码重复！");
     	}
-    	contractLease.setLesseeId(lessee.getId()+"");
-    	contractLease.setBoothId(booth.getId()+"");
+    	contractLease.setLesseeId(lessee.getId());
+    	contractLease.setBoothId(booth.getId());
     	contractLease.setDelFlag(false);//默认未删除
     	contractLease.setCreateTime(new Date());
     	contractLease.setCreateBy("1");
@@ -132,13 +132,13 @@ public class ContractLeaseController {
         PageHelper.startPage(page, size);
         PageHelper.orderBy("create_time DESC");
         Map<String, Object> map = new HashMap<String, Object>();
-        if (StringUtils.isNotBlank(contractLease.getLesseeId())) {
+        if (contractLease.getLesseeId()!=null) {
         	map.put("lesseeId", contractLease.getLesseeId());
         }
         if (StringUtils.isNotBlank(contractLease.getLesseeName())) {
         	map.put("lesseeName", contractLease.getLesseeName());
         }
-        if (StringUtils.isNotBlank(contractLease.getBoothId())) {
+        if (contractLease.getBoothId()!=null) {
         	map.put("boothId", contractLease.getBoothId());
         }
         if (StringUtils.isNotBlank(contractLease.getBoothName())) {

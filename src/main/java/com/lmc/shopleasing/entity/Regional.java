@@ -23,7 +23,7 @@ public class Regional {
      * 所属区域
      */
     @Column(name = "area_id")
-    private String areaId;
+    private Integer areaId;
     
     /**
      * 所属区域名称
@@ -130,7 +130,7 @@ public class Regional {
      * 获取所属区域id
      * @return areaId - 所属区域id
      */
-    public String getAreaId() {
+    public Integer getAreaId() {
 		return areaId;
 	}
     
@@ -138,7 +138,7 @@ public class Regional {
      * 设置所属区域
      * @return areaId 区域id
      */
-	public void setAreaId(String areaId) {
+	public void setAreaId(Integer areaId) {
 		this.areaId = areaId;
 	}
 

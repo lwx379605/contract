@@ -42,7 +42,7 @@ public class BuildingController {
     	if (StringUtils.isBlank(building.getName())) {
     		return Results.badRequest("建筑名称不能为空");
     	}
-    	if (StringUtils.isBlank(building.getRegionalId())) {
+    	if (building.getRegionalId()==null) {
     		return Results.badRequest("所属分区id不能为空");
     	}
     	if (StringUtils.isBlank(building.getBuildingNumber())) {
@@ -63,11 +63,11 @@ public class BuildingController {
     	if (StringUtils.isBlank(building.getPropertyFormat())) {
     		return Results.badRequest("物业业态不能为空");
     	}
-    	Regional regional = regionalService.findById(Integer.valueOf(building.getRegionalId()));
+    	Regional regional = regionalService.findById(building.getRegionalId());
     	if (regional==null) {
     		return Results.badRequest("所属分区不存在");
     	}
-    	building.setRegionalId(regional.getId()+"");
+    	building.setRegionalId(regional.getId());
     	building.setDelFlag(false);//默认未删除
     	building.setCreateTime(new Date());
     	building.setCreateBy("1");
@@ -112,7 +112,7 @@ public class BuildingController {
         if (StringUtils.isNotBlank(building.getName())) {
         	map.put("name", building.getName()+"%");
         }
-        if (StringUtils.isNotBlank(building.getRegionalId())) {
+        if (building.getRegionalId()!=null) {
         	map.put("regionalId", building.getRegionalId());
         }
         if (StringUtils.isNotBlank(building.getRegionalName())) {
@@ -131,7 +131,7 @@ public class BuildingController {
         if (StringUtils.isNotBlank(building.getName())) {
         	map.put("name", building.getName()+"%");
         }
-        if (StringUtils.isNotBlank(building.getRegionalId())) {
+        if (building.getRegionalId()!=null) {
         	map.put("regionalId", building.getRegionalId());
         }
         if (StringUtils.isNotBlank(building.getRegionalName())) {

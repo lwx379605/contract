@@ -45,14 +45,14 @@ public class BoothController {
     	if (StringUtils.isBlank(booth.getStatus())) {
     		return Results.badRequest("摊位状态不能为空");
     	}
-    	if (StringUtils.isBlank(booth.getBuildingId())) {
+    	if (booth.getBuildingId()==null) {
     		return Results.badRequest("所属建筑物id不能为空");
     	}
-    	Building building = buildingService.findById(Integer.valueOf(booth.getBuildingId()));
+    	Building building = buildingService.findById(booth.getBuildingId());
     	if (building==null) {
     		return Results.badRequest("所属建筑物不存在");
     	}
-    	booth.setBuildingId(building.getId()+"");
+    	booth.setBuildingId(building.getId());
     	booth.setDelFlag(false);//默认未删除
     	booth.setCreateTime(new Date());
     	booth.setCreateBy("1");
@@ -100,7 +100,7 @@ public class BoothController {
         if (StringUtils.isNotBlank(booth.getName())) {
         	map.put("name", booth.getName());
         }
-        if (StringUtils.isNotBlank(booth.getBuildingId())) {
+        if (booth.getBuildingId()!=null) {
         	map.put("buildingId", booth.getBuildingId());
         }
         map.put("delFlag", "0");
@@ -116,7 +116,7 @@ public class BoothController {
         if (StringUtils.isNotBlank(booth.getName())) {
         	map.put("name", booth.getName());
         }
-        if (StringUtils.isNotBlank(booth.getBuildingId())) {
+        if (booth.getBuildingId()!=null) {
         	map.put("buildingId", booth.getBuildingId());
         }
         map.put("delFlag", "0");
