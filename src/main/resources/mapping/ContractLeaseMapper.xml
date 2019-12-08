@@ -11,8 +11,8 @@
     <result column="contract_type" jdbcType="VARCHAR" property="contractType" />
     <result column="payment_time" jdbcType="TIMESTAMP" property="paymentTime" />
     <result column="payment_amount" jdbcType="DOUBLE" property="paymentAmount" />
-    <result column="lessee_id" jdbcType="VARCHAR" property="lesseeId" />
-    <result column="booth_id" jdbcType="VARCHAR" property="boothId" />
+    <result column="lessee_id" jdbcType="INTEGER" property="lesseeId" />
+    <result column="booth_id" jdbcType="INTEGER" property="boothId" />
     <result column="osskey" jdbcType="VARCHAR" property="osskey" />
     <result column="effective_time" jdbcType="TIMESTAMP" property="effectiveTime" />
     <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime" />
@@ -31,13 +31,13 @@
   		LEFT JOIN s_lessee l ON cl.lessee_id = l.id
   		LEFT JOIN s_booth b ON cl.booth_id = b.id
   	<where>
-  		<if test="boothId!=null and boothId!=''">
+  		<if test="boothId!=null">
   			AND cl.booth_id = #{boothId}
   		</if>
   		<if test="boothName!=null and boothName!=''">
   			AND b.name LIKE CONCAT(#{boothName},'%')
   		</if>
-  		<if test="lesseeId!=null and lesseeId!=''">
+  		<if test="lesseeId!=null">
   			AND cl.lessee_id = #{lesseeId}
   		</if>
   		<if test="lesseeName!=null and lesseeName!=''">

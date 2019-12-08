@@ -9,6 +9,7 @@ import com.lmc.shopleasing.entity.SysUser;
 import com.lmc.shopleasing.global.Results;
 import com.lmc.shopleasing.service.SysRoleService;
 import com.lmc.shopleasing.service.SysUserService;
+import com.lmc.shopleasing.util.SysUserHolder;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -98,5 +99,10 @@ public class SysUserController extends BaseController{
         List<SysUser> list = sysUserService.findAll();
         PageInfo pageInfo = new PageInfo(list);
         return Results.success(pageInfo);
+    }
+
+    @RequestMapping("/current")
+    public ResponseEntity list() {
+        return Results.success(SysUserHolder.getUserDetail());
     }
 }

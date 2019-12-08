@@ -13,7 +13,7 @@ public class Booth {
      * 所属建筑物
      */
     @Column(name = "building_id")
-    private String buildingId;
+    private Integer buildingId;
     
     /**
      * 所属建筑物名称
@@ -118,7 +118,7 @@ public class Booth {
      *
      * @return building_id - 所属建筑物
      */
-    public String getBuildingId() {
+    public Integer getBuildingId() {
         return buildingId;
     }
 
@@ -127,7 +127,7 @@ public class Booth {
      *
      * @param buildingId 所属建筑物
      */
-    public void setBuildingId(String buildingId) {
+    public void setBuildingId(Integer buildingId) {
         this.buildingId = buildingId;
     }
     

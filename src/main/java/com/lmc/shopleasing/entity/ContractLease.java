@@ -43,13 +43,13 @@ public class ContractLease {
      * 承租人
      */
     @Column(name = "lessee_id")
-    private String lesseeId;
+    private Integer lesseeId;
 
     /**
      * 承租摊位
      */
     @Column(name = "booth_id")
-    private String boothId;
+    private Integer boothId;
 
     /**
      * 附件（多个以逗号分隔）
@@ -230,7 +230,7 @@ public class ContractLease {
      *
      * @return lessee_id - 承租人
      */
-    public String getLesseeId() {
+    public Integer getLesseeId() {
         return lesseeId;
     }
 
@@ -239,7 +239,7 @@ public class ContractLease {
      *
      * @param lesseeId 承租人
      */
-    public void setLesseeId(String lesseeId) {
+    public void setLesseeId(Integer lesseeId) {
         this.lesseeId = lesseeId;
     }
 
@@ -248,7 +248,7 @@ public class ContractLease {
      *
      * @return booth_id - 承租摊位
      */
-    public String getBoothId() {
+    public Integer getBoothId() {
         return boothId;
     }
 
@@ -257,7 +257,7 @@ public class ContractLease {
      *
      * @param boothId 承租摊位
      */
-    public void setBoothId(String boothId) {
+    public void setBoothId(Integer boothId) {
         this.boothId = boothId;
     }
 

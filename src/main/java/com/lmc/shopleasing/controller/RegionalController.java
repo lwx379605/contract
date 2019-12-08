@@ -44,7 +44,7 @@ public class RegionalController {
     	if (StringUtils.isBlank(regional.getType())) {
     		return Results.badRequest("分区类型不能为空");
     	}
-    	if (StringUtils.isBlank(regional.getAreaId())) {
+    	if (regional.getAreaId()==null) {
     		return Results.badRequest("所属区域id不能为空");
     	}
     	if (regional.getRentableArea()!=null && regional.getRentedArea()!=null) {

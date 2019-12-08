@@ -13,7 +13,7 @@ public class Building {
      * 所属分区
      */
     @Column(name = "regional_id")
-    private String regionalId;
+    private Integer regionalId;
     
     /**
      * 分区名称
@@ -122,7 +122,7 @@ public class Building {
      *
      * @return regional_id - 所属分区
      */
-    public String getRegionalId() {
+    public Integer getRegionalId() {
         return regionalId;
     }
 
@@ -131,7 +131,7 @@ public class Building {
      *
      * @param regionalId 所属分区
      */
-    public void setRegionalId(String regionalId) {
+    public void setRegionalId(Integer regionalId) {
         this.regionalId = regionalId;
     }
     
