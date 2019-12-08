@@ -10,6 +10,7 @@
     <result column="building_name" jdbcType="VARCHAR" property="buildingName"/>
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="lease_mode" jdbcType="VARCHAR" property="leaseMode" />
     <result column="annual_rent" jdbcType="DOUBLE" property="annualRent" />
     <result column="monthly_rent" jdbcType="DOUBLE" property="monthlyRent" />
     <result column="renovation_security_deposit" jdbcType="DOUBLE" property="renovationSecurityDeposit" />

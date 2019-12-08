@@ -79,7 +79,7 @@ public class RegionalController {
     		if (regional.getRentedArea()>regional.getRentableArea()) {
     			return Results.badRequest("可出租面积不能小于已出租面积");
     		}
-    		BigDecimal rentalRate = new BigDecimal(regional.getRentedArea()).divide(new BigDecimal(regional.getRentableArea())).subtract(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP);
+    		BigDecimal rentalRate = new BigDecimal(regional.getRentedArea()).divide(new BigDecimal(regional.getRentableArea()), 4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP);
     		regional.setRentalRate(rentalRate.doubleValue());
     	}
     	regional.setDelFlag(null);

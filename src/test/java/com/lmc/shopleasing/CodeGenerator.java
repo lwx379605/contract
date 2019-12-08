@@ -51,7 +51,7 @@ public class CodeGenerator {
        // genCode("sys_office");
     // genCode("sys_role_office");
       //genCode("sys_menu");
-       genCode("s_contract_lease");
+       genCode("sys_dict");
        //genCode("sys_user_role");
       // genCode("sys_plugin_config");
        //genCode("sys_role_menu");
@@ -65,7 +65,7 @@ public class CodeGenerator {
      */
     public static void genCode(String... tableNames) {
         for (String tableName : tableNames) {
-            genCode(tableName,tableNameConvertUpperCamel(tableName.substring(2,tableName.length())));
+            genCode(tableName,tableNameConvertUpperCamel(tableName.substring(0,tableName.length())));
 //            genCode(tableName,tableNameConvertUpperCamel(tableName));
         }
     }
@@ -78,8 +78,8 @@ public class CodeGenerator {
      */
     public static void genCode(String tableName, String modelName) {
         genModelAndMapper(tableName, modelName);
-//        genService(tableName, modelName);
-//        genController(tableName, modelName);
+        genService(tableName, modelName);
+        genController(tableName, modelName);
     }
 
 

@@ -30,6 +30,12 @@ public class Booth {
      * 摊位状态 1正常出租 2即将到期 3可以出租
      */
     private String status;
+    
+    /**
+     * 租赁方式 1:月租，2:年租
+     */
+    @Column(name = "lease_mode")
+    private String leaseMode;
 
     /**
      * 年租
@@ -85,7 +91,15 @@ public class Booth {
     @Column(name = "del_flag")
     private Boolean delFlag;
 
-    /**
+    public String getLeaseMode() {
+		return leaseMode;
+	}
+
+	public void setLeaseMode(String leaseMode) {
+		this.leaseMode = leaseMode;
+	}
+
+	/**
      * @return id
      */
     public Integer getId() {

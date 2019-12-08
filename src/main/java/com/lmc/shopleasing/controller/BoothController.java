@@ -142,6 +142,7 @@ public class BoothController {
     	}
     	Booth booth = new Booth();
     	booth.setId(id);
+    	booth.setLeaseMode(type);
     	booth.setAnnualRent(annualRent.doubleValue());
     	booth.setMonthlyRent(monthlyRent.doubleValue());
     	boothService.update(booth);
