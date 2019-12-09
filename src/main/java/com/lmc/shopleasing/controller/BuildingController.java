@@ -141,4 +141,23 @@ public class BuildingController {
         List<Building> list = buildingService.findByCondition(map);
         return Results.success(list);
     }
+    
+    @PostMapping("/findRegionalAndBuildingList")
+    public ResponseEntity findRegionalAndBuildingList() {
+    	Condition condition = new Condition(Regional.class);
+    	condition.selectProperties("id","name");
+    	Criteria criteria = condition.createCriteria();
+    	criteria.andEqualTo("delFlag", false);
+    	List<Regional> list = regionalService.findByCondition(condition);
+    	for (Regional regional : list) {
+    		Condition condition1 = new Condition(Building.class);
+    		condition1.selectProperties("id","name");
+    		Criteria criteria2 = condition1.createCriteria();
+    		criteria2.andEqualTo("delFlag", false);
+    		criteria2.andEqualTo("regionalId", regional.getId());
+    		List<Building> list2 = buildingService.findByCondition(condition1);
+    		regional.setBuildings(list2);
+		}
+        return Results.success(list);
+    }
 }

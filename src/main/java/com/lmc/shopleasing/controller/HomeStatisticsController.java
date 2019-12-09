@@ -270,7 +270,7 @@ public class HomeStatisticsController {
 		lastWeek.add(Calendar.DATE, n1 * 7);
 		//上周周一
 		lastWeek.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-		map.put("endTime", dateFormat.format(thisWeek.getTime()));
+		map.put("endTime", dateFormat.format(lastWeek.getTime()));
 		return map;
 	}
 
