@@ -26,7 +26,7 @@ public class ContractBudgetRecord {
     private String paymentType;
 
     /**
-     * 支付项类型 1、租金，2、保证金，3、物业费，4、卫生费 5、其他
+     * 支付项类型 数据字典类型值 payItemType
      */
     @Column(name = "item_type")
     private String itemType;
@@ -155,16 +155,14 @@ public class ContractBudgetRecord {
     }
 
     /**
-     *  支付项类型 1、租金，2、保证金，3、物业费，4、卫生费 5、其他
-     * @return
+     * 支付项类型 数据字典类型值 payItemType
      */
     public String getItemType() {
         return itemType;
     }
 
     /**
-     * 支付项类型 1、租金，2、保证金，3、物业费，4、卫生费 5、其他
-     * @param itemType
+     * 支付项类型 数据字典类型值 payItemType
      */
     public void setItemType(String itemType) {
         this.itemType = itemType;
