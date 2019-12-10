@@ -15,6 +15,8 @@
     <result column="monthly_rent" jdbcType="DOUBLE" property="monthlyRent" />
     <result column="renovation_security_deposit" jdbcType="DOUBLE" property="renovationSecurityDeposit" />
     <result column="security_deposit" jdbcType="DOUBLE" property="securityDeposit" />
+    <result column="lease_start_time" jdbcType="TIMESTAMP" property="leaseStartTime" />
+    <result column="lease_over_time" jdbcType="TIMESTAMP" property="leaseOverTime" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="create_by" jdbcType="VARCHAR" property="createBy" />

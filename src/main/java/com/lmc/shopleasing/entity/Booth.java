@@ -62,6 +62,18 @@ public class Booth {
     private Double securityDeposit;
 
     /**
+     * 出租起始时间
+     */
+    @Column(name = "lease_start_time")
+    private Date leaseStartTime;
+
+    /**
+     * 出租截止时间
+     */
+    @Column(name = "lease_over_time")
+    private Date leaseOverTime;
+
+    /**
      * 创建时间
      */
     @Column(name = "create_time")
@@ -343,5 +355,34 @@ public class Booth {
      */
     public void setDelFlag(Boolean delFlag) {
         this.delFlag = delFlag;
+    }
+
+
+    /**
+     * 出租起始时间
+     */
+    public Date getLeaseStartTime() {
+        return leaseStartTime;
+    }
+
+    /**
+     * 出租起始时间
+     */
+    public void setLeaseStartTime(Date leaseStartTime) {
+        this.leaseStartTime = leaseStartTime;
+    }
+
+    /**
+     * 出租截止时间
+     */
+    public Date getLeaseOverTime() {
+        return leaseOverTime;
+    }
+
+    /**
+     * 出租截止时间
+     */
+    public void setLeaseOverTime(Date leaseOverTime) {
+        this.leaseOverTime = leaseOverTime;
     }
 }
