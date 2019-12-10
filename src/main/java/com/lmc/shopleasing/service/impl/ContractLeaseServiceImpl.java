@@ -45,4 +45,9 @@ public class ContractLeaseServiceImpl extends AbstractService<ContractLease> imp
 			boothMapper.updateByPrimaryKeySelective(booth);
 		}
 	}
+
+	@Override
+	public ContractLease findContractById(Integer id) {
+		return sContractLeaseMapper.findContractById(id);
+	}
 }

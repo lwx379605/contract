@@ -32,8 +32,7 @@ public class FileController extends BaseController {
 	 * 上传
 	 */
 	@PostMapping("/upload")
-	public ResponseEntity<?> upload(FileType fileType, MultipartFile file) {
-		Map<String, Object> data = new HashMap<>();
+	public ResponseEntity upload(FileType fileType, MultipartFile file) {
 		if (fileType == null || file == null || file.isEmpty()) {
 			return Results.UNPROCESSABLE_ENTITY;
 		}
@@ -44,9 +43,7 @@ public class FileController extends BaseController {
 		if (StringUtils.isEmpty(url)) {
 			return Results.unprocessableEntity("file.upload.error");
 		}
-
-		data.put("url", url);
-		return ResponseEntity.ok(data);
+		return Results.success(url);
 	}
 
 }

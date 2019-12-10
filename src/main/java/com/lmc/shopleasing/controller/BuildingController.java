@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -143,12 +144,13 @@ public class BuildingController {
     }
     
     @PostMapping("/findRegionalAndBuildingList")
-    public ResponseEntity findRegionalAndBuildingList() {
+    public ResponseEntity findRegionalAndBuildingList(String isFilterNull) {
     	Condition condition = new Condition(Regional.class);
     	condition.selectProperties("id","name");
     	Criteria criteria = condition.createCriteria();
     	criteria.andEqualTo("delFlag", false);
     	List<Regional> list = regionalService.findByCondition(condition);
+    	List<Regional> removeList = new ArrayList<Regional>();
     	for (Regional regional : list) {
     		Condition condition1 = new Condition(Building.class);
     		condition1.selectProperties("id","name");
@@ -156,8 +158,14 @@ public class BuildingController {
     		criteria2.andEqualTo("delFlag", false);
     		criteria2.andEqualTo("regionalId", regional.getId());
     		List<Building> list2 = buildingService.findByCondition(condition1);
+    		if (StringUtils.equals(isFilterNull, "1")) {
+	    		if (list2==null || list2.size()<1) {
+	    			removeList.add(regional);
+	    		}
+    		}
     		regional.setBuildings(list2);
 		}
+    	list.removeAll(removeList);
         return Results.success(list);
     }
 }

@@ -34,17 +34,21 @@ public class ContractBudgetRecordServiceImpl extends AbstractService<ContractBud
 		Date currDate = new Date();
 		ContractBudgetRecord budgetRecord = new ContractBudgetRecord();
 		budgetRecord.setContractCode(contractCode);
+		budgetRecord.setContractName(lease.getContractName());
 		budgetRecord.setAmount(amount);
 		budgetRecord.setPaymentType(paymentType);
 		budgetRecord.setPaymentTime(currDate);
 		budgetRecord.setCreateTime(currDate);
 		budgetRecord.setItemType(itemType);
 		save(budgetRecord);
-		Double paymentAmount = null;
+		Double paymentAmount = 0.0;
+		if (lease.getPaymentAmount()!=null) {
+			paymentAmount = lease.getPaymentAmount();
+		}
 		if (StringUtils.equals(paymentType, "1")) {//支付类型 1:收入,2:支出
-			paymentAmount = new BigDecimal(lease.getPaymentAmount()).add(new BigDecimal(amount)).doubleValue();
+			paymentAmount = new BigDecimal(paymentAmount).add(new BigDecimal(amount)).doubleValue();
 		} else {
-			paymentAmount = new BigDecimal(lease.getPaymentAmount()).subtract(new BigDecimal(amount)).doubleValue();
+			paymentAmount = new BigDecimal(paymentAmount).subtract(new BigDecimal(amount)).doubleValue();
 		}
 		lease.setPaymentAmount(paymentAmount);
 		lease.setPaymentTime(new Date());

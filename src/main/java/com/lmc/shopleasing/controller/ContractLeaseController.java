@@ -7,9 +7,6 @@ import com.lmc.shopleasing.service.BoothService;
 import com.lmc.shopleasing.service.ContractLeaseService;
 import com.lmc.shopleasing.service.LesseeService;
 
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import tk.mybatis.mapper.entity.Condition;
 import tk.mybatis.mapper.entity.Example.Criteria;
 
@@ -17,18 +14,14 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.http.ResponseEntity;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.google.zxing.Result;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.persistence.Column;
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -175,7 +168,7 @@ public class ContractLeaseController extends  BaseController{
 
     @PostMapping("/detail")
     public ResponseEntity detail(@RequestParam Integer id) {
-        ContractLease contractLease = contractLeaseService.findById(id);
+        ContractLease contractLease = contractLeaseService.findContractById(id);
         return Results.success(contractLease);
     }
 
@@ -200,6 +193,14 @@ public class ContractLeaseController extends  BaseController{
         List<ContractLease> list = contractLeaseService.findByCondition(map);
         PageInfo<ContractLease> pageInfo = new PageInfo<ContractLease>(list);
         return Results.success(pageInfo);
+    }
+    
+    @PostMapping("/findByList")
+    public ResponseEntity findByList() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("delFlag", "0");
+        List<ContractLease> list = contractLeaseService.findByCondition(map);
+        return Results.success(list);
     }
 
 

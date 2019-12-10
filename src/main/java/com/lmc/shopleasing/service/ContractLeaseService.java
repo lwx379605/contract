@@ -34,6 +34,13 @@ public interface ContractLeaseService extends Service<ContractLease> {
 	 * @param booth
 	 */
 	void update(ContractLease contractLease, Booth booth);
+	
+	/**
+	 * 根据id获取租期合同
+	 * @param id
+	 * @return
+	 */
+	ContractLease findContractById(Integer id);
 
 
 }

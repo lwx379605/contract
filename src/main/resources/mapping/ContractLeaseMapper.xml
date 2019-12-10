@@ -7,6 +7,7 @@
     -->
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="contract_code" jdbcType="VARCHAR" property="contractCode" />
+    <result column="contract_name" jdbcType="VARCHAR" property="contractName"/>
     <result column="contract_amount" jdbcType="DOUBLE" property="contractAmount" />
     <result column="contract_type" jdbcType="VARCHAR" property="contractType" />
     <result column="payment_time" jdbcType="TIMESTAMP" property="paymentTime" />
@@ -21,11 +22,22 @@
     <result column="create_by" jdbcType="VARCHAR" property="createBy" />
     <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
     <result column="del_flag" jdbcType="BIT" property="delFlag" />
+    <result column="legal_representative" jdbcType="VARCHAR" property="lesseeName"/>
+    <!-- 摊位信息 -->
+    <result column="booth_name" jdbcType="VARCHAR" property="boothName"/>
+    <result column="lease_start_time" jdbcType="TIMESTAMP" property="leaseStartTime"/>
+    <result column="lease_over_time" jdbcType="TIMESTAMP" property="leaseOverTime"/>
+    <result column="lease_mode" jdbcType="VARCHAR" property="leaseMode"/>
+    <result column="annual_rent" jdbcType="DOUBLE" property="annualRent"/>
+    <result column="monthly_rent" jdbcType="DOUBLE" property="monthlyRent"/>
+    <result column="renovation_security_deposit" jdbcType="DOUBLE" property="renovationSecurityDeposit"/>
+    <result column="security_deposit" jdbcType="DOUBLE" property="securityDeposit"/>
+    <result column="hygiene_fee" jdbcType="DOUBLE" property="hygieneFee"/>
   </resultMap>
   
   <select id="findByCondition" parameterType="map" resultMap="BaseResultMap">
   	SElECT
-  		cl.*,l.legal_representative as lessee_id,b.name as booth_name
+  		cl.*,l.legal_representative,b.*
   	FROM
   		s_contract_lease cl 
   		LEFT JOIN s_lessee l ON cl.lessee_id = l.id
@@ -41,10 +53,24 @@
   			AND cl.lessee_id = #{lesseeId}
   		</if>
   		<if test="lesseeName!=null and lesseeName!=''">
-  			AND l.name LIKE CONCAT(#{lesseeName},'%')
+  			AND l.legal_representative LIKE CONCAT(#{lesseeName},'%')
   		</if>
   		<if test="delFlag!=null and delFlag!=''">
   			AND cl.del_Flag = #{delFlag}
+  		</if>
+  	</where>
+  </select>
+  
+  <select id="findContractById" resultMap="BaseResultMap">
+  	SElECT
+  		cl.*,l.legal_representative,b.*
+  	FROM
+  		s_contract_lease cl 
+  		LEFT JOIN s_lessee l ON cl.lessee_id = l.id
+  		LEFT JOIN s_booth b ON cl.booth_id = b.id
+  	<where>
+  		<if test="id!=null">
+			cl.id = #{id}
   		</if>
   	</where>
   </select>

@@ -5,6 +5,8 @@ import com.lmc.shopleasing.entity.Building;
 import com.lmc.shopleasing.service.BoothService;
 import com.lmc.shopleasing.service.BuildingService;
 
+import tk.mybatis.mapper.entity.Condition;
+import tk.mybatis.mapper.entity.Example.Criteria;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.ResponseEntity;
@@ -179,7 +181,15 @@ public class BoothController {
         return Results.OK;
     }
     
-    
+    @PostMapping("/countAboutExpire")
+    public ResponseEntity countAboutExpire() {
+    	Condition condition = new Condition(Booth.class);
+    	Criteria criteria = condition.createCriteria();
+    	criteria.andEqualTo("delFlag", false);
+    	criteria.andEqualTo("status", "2");
+    	Integer count = boothService.selectCountByCondition(condition);
+        return Results.success(count);
+    }
     
     
 }

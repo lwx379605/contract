@@ -18,6 +18,12 @@ public class ContractBudgetRecord {
      */
     @Column(name = "contract_code")
     private String contractCode;
+    
+    /**
+     * 合同名称
+     */
+    @Column(name = "contract_name")
+    private String contractName;
 
     /**
      * 支付类型(1:收入,2:支出)
@@ -80,6 +86,24 @@ public class ContractBudgetRecord {
      */
     public void setContractCode(String contractCode) {
         this.contractCode = contractCode;
+    }
+    
+    /**
+     * 获取合同名称
+     *
+     * @return contract_code - 合同名称
+     */
+    public String getContractName() {
+        return contractName;
+    }
+
+    /**
+     * 设置合同名称
+     *
+     * @param contractCode 合同名称
+     */
+    public void setContractName(String contractName) {
+        this.contractName = contractName;
     }
 
     /**

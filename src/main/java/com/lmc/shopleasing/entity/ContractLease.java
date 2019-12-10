@@ -3,6 +3,8 @@ package com.lmc.shopleasing.entity;
 import java.util.Date;
 import javax.persistence.*;
 
+import org.apache.commons.lang.StringUtils;
+
 @Table(name = "s_contract_lease")
 public class ContractLease {
     @Id
@@ -14,6 +16,12 @@ public class ContractLease {
      */
     @Column(name = "contract_code")
     private String contractCode;
+    
+    /**
+     * 合同名称
+     */
+    @Column(name = "contract_name")
+    private String contractName;
 
     /**
      * 合同金额
@@ -103,9 +111,141 @@ public class ContractLease {
     
     @Transient
     private String boothName;
+    /*************************************** 摊位信息  ********************************************/
     
     
-    public String getLesseeName() {
+    /**
+     * 出租起始时间
+     */
+    @Transient
+    private Date leaseStartTime;
+
+    /**
+     * 出租截止时间
+     */
+    @Transient
+    private Date leaseOverTime;
+    
+    /**
+     * 租赁方式 1:月租，2:年租
+     */
+    @Transient
+    private String leaseMode;
+    
+    /**
+     * 年租
+     */
+    @Transient
+    private Double annualRent;
+
+    /**
+     * 月租
+     */
+    @Transient
+    private Double monthlyRent;
+    
+    /**
+     * 金额
+     */
+    @Transient
+    private Double amount;
+    
+    /**
+     * 装修保证金
+     */
+    @Transient
+    private Double renovationSecurityDeposit;
+
+    /**
+     * 保证金
+     */
+    @Transient
+    private Double securityDeposit;
+
+    /**
+     * 卫生费
+     */
+    @Transient
+    private Double hygieneFee;
+    
+    
+    public Date getLeaseStartTime() {
+		return leaseStartTime;
+	}
+
+	public void setLeaseStartTime(Date leaseStartTime) {
+		this.leaseStartTime = leaseStartTime;
+	}
+
+	public Date getLeaseOverTime() {
+		return leaseOverTime;
+	}
+
+	public void setLeaseOverTime(Date leaseOverTime) {
+		this.leaseOverTime = leaseOverTime;
+	}
+
+	public String getLeaseMode() {
+		return leaseMode;
+	}
+
+	public void setLeaseMode(String leaseMode) {
+		this.leaseMode = leaseMode;
+	}
+
+	public Double getAnnualRent() {
+		return annualRent;
+	}
+
+	public void setAnnualRent(Double annualRent) {
+		this.annualRent = annualRent;
+	}
+
+	public Double getMonthlyRent() {
+		return monthlyRent;
+	}
+
+	public void setMonthlyRent(Double monthlyRent) {
+		this.monthlyRent = monthlyRent;
+	}
+
+	public Double getAmount() {
+		if (StringUtils.equals(leaseMode, "1")) {
+			return monthlyRent;
+		}else {
+			return annualRent;
+		}
+	}
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+
+	public Double getRenovationSecurityDeposit() {
+		return renovationSecurityDeposit;
+	}
+
+	public void setRenovationSecurityDeposit(Double renovationSecurityDeposit) {
+		this.renovationSecurityDeposit = renovationSecurityDeposit;
+	}
+
+	public Double getSecurityDeposit() {
+		return securityDeposit;
+	}
+
+	public void setSecurityDeposit(Double securityDeposit) {
+		this.securityDeposit = securityDeposit;
+	}
+
+	public Double getHygieneFee() {
+		return hygieneFee;
+	}
+
+	public void setHygieneFee(Double hygieneFee) {
+		this.hygieneFee = hygieneFee;
+	}
+
+	public String getLesseeName() {
 		return lesseeName;
 	}
 
@@ -151,6 +291,24 @@ public class ContractLease {
      */
     public void setContractCode(String contractCode) {
         this.contractCode = contractCode;
+    }
+    
+    /**
+     * 获取合同名称
+     *
+     * @return contract_code - 合同名称
+     */
+    public String getContractName() {
+        return contractName;
+    }
+
+    /**
+     * 设置合同名称
+     *
+     * @param contractCode 合同名称
+     */
+    public void setContractName(String contractName) {
+        this.contractName = contractName;
     }
 
     /**
