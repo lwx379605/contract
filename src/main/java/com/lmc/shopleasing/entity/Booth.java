@@ -62,6 +62,12 @@ public class Booth {
     private Double securityDeposit;
 
     /**
+     * 卫生费
+     */
+    @Column(name = "hygiene_fee")
+    private Double hygieneFee;
+
+    /**
      * 出租起始时间
      */
     @Column(name = "lease_start_time")
@@ -384,5 +390,21 @@ public class Booth {
      */
     public void setLeaseOverTime(Date leaseOverTime) {
         this.leaseOverTime = leaseOverTime;
+    }
+
+    /**
+     * 获取卫生费
+     * @return
+     */
+    public Double getHygieneFee() {
+        return hygieneFee;
+    }
+
+    /**
+     * 设置卫生费
+     * @return
+     */
+    public void setHygieneFee(Double hygieneFee) {
+        this.hygieneFee = hygieneFee;
     }
 }

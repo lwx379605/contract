@@ -13,6 +13,7 @@
     <result column="lease_mode" jdbcType="VARCHAR" property="leaseMode" />
     <result column="annual_rent" jdbcType="DOUBLE" property="annualRent" />
     <result column="monthly_rent" jdbcType="DOUBLE" property="monthlyRent" />
+    <result column="hygiene_fee" jdbcType="DOUBLE" property="hygieneFee" />
     <result column="renovation_security_deposit" jdbcType="DOUBLE" property="renovationSecurityDeposit" />
     <result column="security_deposit" jdbcType="DOUBLE" property="securityDeposit" />
     <result column="lease_start_time" jdbcType="TIMESTAMP" property="leaseStartTime" />

@@ -1,6 +1,8 @@
 package com.lmc.shopleasing.service.impl;
 
+import com.lmc.shopleasing.dao.BoothMapper;
 import com.lmc.shopleasing.dao.ContractLeaseMapper;
+import com.lmc.shopleasing.entity.Booth;
 import com.lmc.shopleasing.entity.ContractLease;
 import com.lmc.shopleasing.service.ContractLeaseService;
 import com.lmc.shopleasing.core.AbstractService;
@@ -22,9 +24,25 @@ public class ContractLeaseServiceImpl extends AbstractService<ContractLease> imp
     @Resource
     private ContractLeaseMapper sContractLeaseMapper;
 
+	@Resource
+	private BoothMapper  boothMapper;
+
 	@Override
 	public List<ContractLease> findByCondition(Map<String, Object> map) {
 		return sContractLeaseMapper.findByCondition(map);
 	}
 
+	@Override
+	public void save(ContractLease contractLease, Booth booth) {
+		sContractLeaseMapper.insert(contractLease);
+		boothMapper.updateByPrimaryKey(booth);
+	}
+
+	@Override
+	public void update(ContractLease contractLease, Booth booth) {
+		sContractLeaseMapper.updateByPrimaryKeySelective(contractLease);
+		if(booth!=null){
+			boothMapper.updateByPrimaryKeySelective(booth);
+		}
+	}
 }

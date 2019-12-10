@@ -1,4 +1,5 @@
 package com.lmc.shopleasing.service;
+import com.lmc.shopleasing.entity.Booth;
 import com.lmc.shopleasing.entity.ContractLease;
 
 import java.util.List;
@@ -18,5 +19,21 @@ public interface ContractLeaseService extends Service<ContractLease> {
 	 * @return
 	 */
 	List<ContractLease> findByCondition(Map<String, Object> map);
+
+	/**
+	 * 录入摊位出租合同信息
+	 * @param contractLease
+	 * @param booth
+	 */
+	void save(ContractLease contractLease, Booth booth);
+
+
+	/**
+	 * g更新摊位出租合同信息
+	 * @param contractLease
+	 * @param booth
+	 */
+	void update(ContractLease contractLease, Booth booth);
+
 
 }

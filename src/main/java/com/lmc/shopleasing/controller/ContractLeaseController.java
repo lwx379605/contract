@@ -7,6 +7,9 @@ import com.lmc.shopleasing.service.BoothService;
 import com.lmc.shopleasing.service.ContractLeaseService;
 import com.lmc.shopleasing.service.LesseeService;
 
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import tk.mybatis.mapper.entity.Condition;
 import tk.mybatis.mapper.entity.Example.Criteria;
 
@@ -23,6 +26,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.persistence.Column;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -34,16 +42,18 @@ import java.util.Map;
 */
 @RestController
 @RequestMapping("/contract/lease")
-public class ContractLeaseController {
+public class ContractLeaseController extends  BaseController{
     @Resource
     private ContractLeaseService contractLeaseService;
+
     @Resource
     private BoothService boothService;
+
     @Resource
     private LesseeService lesseeService;
 
     @PostMapping("/add")
-    public ResponseEntity add(ContractLease contractLease) {
+    public ResponseEntity add(ContractLease contractLease, @Valid  BoothForm boothForm) {
     	if (StringUtils.isBlank(contractLease.getOsskey())) {
     		return Results.badRequest("附件不能为空");
     	}
@@ -70,6 +80,9 @@ public class ContractLeaseController {
     	if (booth==null) {
     		return Results.badRequest("摊位不存在");
     	}
+    	if(!StringUtils.equals("3",booth.getStatus())){
+			return Results.badRequest("摊位状态不是可出租状态");
+		}
     	Condition condition = new Condition(ContractLease.class);
     	Criteria criteria = condition.createCriteria();
     	criteria.andEqualTo("contractCode", contractLease.getContractCode());
@@ -84,7 +97,19 @@ public class ContractLeaseController {
     	contractLease.setCreateBy("1");
     	contractLease.setPaymentAmount(null);
     	contractLease.setPaymentTime(null);
-        contractLeaseService.save(contractLease);
+
+    	if(StringUtils.equals("1",boothForm.getLeaseMode())){
+			booth.setMonthlyRent(boothForm.getAmount());
+		}else{
+			booth.setAnnualRent(boothForm.getAmount());
+		}
+		booth.setStatus("1");
+		booth.setHygieneFee(boothForm.getHygieneFee());
+		booth.setLeaseOverTime(boothForm.getLeaseOverTime());
+		booth.setLeaseStartTime(boothForm.leaseStartTime);
+		booth.setRenovationSecurityDeposit(boothForm.getRenovationSecurityDeposit());
+		booth.setSecurityDeposit(boothForm.getSecurityDeposit());
+        contractLeaseService.save(contractLease,booth);
         return Results.OK;
     }
 
@@ -98,11 +123,16 @@ public class ContractLeaseController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity update(ContractLease contractLease) {
+    public ResponseEntity update(ContractLease contractLease,BoothForm boothForm) {
+
     	if (contractLease.getId()==null) {
     		return Results.badRequest("id不能为空");
     	}
-    	if (StringUtils.isNotBlank(contractLease.getContractCode())) {
+		ContractLease ocl = contractLeaseService.findById(contractLease.getId());
+		if (ocl == null) {
+			return Results.badRequest("当前操作的合同不存在");
+		}
+		if (StringUtils.isNotBlank(contractLease.getContractCode())) {
     		Condition condition = new Condition(ContractLease.class);
     		Criteria criteria = condition.createCriteria();
     		criteria.andEqualTo("contractCode", contractLease.getContractCode());
@@ -114,14 +144,32 @@ public class ContractLeaseController {
     			}
     		}
     	}
-    	contractLease.setDelFlag(null);
+
+		contractLease.setDelFlag(null);
     	contractLease.setCreateTime(null);
     	contractLease.setCreateBy(null);
     	contractLease.setUpdateTime(new Date());
     	contractLease.setPaymentAmount(null);
     	contractLease.setPaymentTime(null);
     	contractLease.setUpdateBy("1");
-        contractLeaseService.update(contractLease);
+		Booth booth = boothService.findById(ocl.getBoothId());
+		Booth model =null;
+		if(booth!=null){
+			model = new Booth();
+			model.setId(booth.getId());
+			if(StringUtils.equals("1",boothForm.getLeaseMode())){
+				booth.setMonthlyRent(boothForm.getAmount());
+			}else{
+				booth.setAnnualRent(boothForm.getAmount());
+			}
+			model.setHygieneFee(boothForm.getHygieneFee());
+			model.setLeaseOverTime(boothForm.getLeaseOverTime());
+			model.setLeaseStartTime(boothForm.getLeaseStartTime());
+			model.setRenovationSecurityDeposit(boothForm.getRenovationSecurityDeposit());
+			model.setSecurityDeposit(boothForm.getSecurityDeposit());
+		}
+
+        contractLeaseService.update(contractLease,model);
         return Results.OK;
     }
 
@@ -153,4 +201,107 @@ public class ContractLeaseController {
         PageInfo<ContractLease> pageInfo = new PageInfo<ContractLease>(list);
         return Results.success(pageInfo);
     }
+
+
+    public static class BoothForm{
+
+		/**
+		 * 出租起始时间
+		 */
+		@NotNull(message = "摊位出租起始时间不能为空")
+		private Date leaseStartTime;
+
+		/**
+		 * 出租截止时间
+		 */
+		@NotNull(message = "摊位出租截止时间不能为空")
+		private Date leaseOverTime;
+
+		/**
+		 * 租赁方式 1:月租，2:年租
+		 */
+		@Pattern(regexp = "^[12]$",message = "租赁方式只能为 1:月租，2:年租")
+		private String leaseMode;
+
+
+		/**
+		 * 金额
+		 */
+		@NotNull(message = "金额不能为空")
+		private Double amount;
+
+		/**
+		 * 装修保证金
+		 */
+		@NotNull(message = "装修保证金不能为空")
+		private Double renovationSecurityDeposit;
+
+		/**
+		 * 保证金
+		 */
+		@NotNull(message = "摊位保证金不能为空")
+		private Double securityDeposit;
+
+		/**
+		 * 卫生费
+		 */
+		@NotNull(message = "卫生费不能为空")
+		private Double hygieneFee;
+
+		public Date getLeaseStartTime() {
+			return leaseStartTime;
+		}
+
+		public void setLeaseStartTime(Date leaseStartTime) {
+			this.leaseStartTime = leaseStartTime;
+		}
+
+		public Date getLeaseOverTime() {
+			return leaseOverTime;
+		}
+
+		public void setLeaseOverTime(Date leaseOverTime) {
+			this.leaseOverTime = leaseOverTime;
+		}
+
+		public String getLeaseMode() {
+			return leaseMode;
+		}
+
+		public void setLeaseMode(String leaseMode) {
+			this.leaseMode = leaseMode;
+		}
+
+		public Double getAmount() {
+			return amount;
+		}
+
+		public void setAmount(Double amount) {
+			this.amount = amount;
+		}
+
+		public Double getRenovationSecurityDeposit() {
+			return renovationSecurityDeposit;
+		}
+
+		public void setRenovationSecurityDeposit(Double renovationSecurityDeposit) {
+			this.renovationSecurityDeposit = renovationSecurityDeposit;
+		}
+
+		public Double getSecurityDeposit() {
+			return securityDeposit;
+		}
+
+		public void setSecurityDeposit(Double securityDeposit) {
+			this.securityDeposit = securityDeposit;
+		}
+
+		public Double getHygieneFee() {
+			return hygieneFee;
+		}
+
+		public void setHygieneFee(Double hygieneFee) {
+			this.hygieneFee = hygieneFee;
+		}
+	}
 }
