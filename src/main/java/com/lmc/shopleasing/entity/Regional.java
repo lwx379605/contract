@@ -1,6 +1,8 @@
 package com.lmc.shopleasing.entity;
 
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.*;
 
 @Table(name = "s_regional")
@@ -75,8 +77,19 @@ public class Regional {
      */
     @Column(name = "del_flag")
     private Boolean delFlag;
+    
+    @Transient
+    private List<Building> buildings;
+    
+    public List<Building> getBuildings() {
+		return buildings;
+	}
 
-    /**
+	public void setBuildings(List<Building> buildings) {
+		this.buildings = buildings;
+	}
+
+	/**
      * @return id
      */
     public Integer getId() {

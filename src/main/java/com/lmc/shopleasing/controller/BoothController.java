@@ -5,15 +5,12 @@ import com.lmc.shopleasing.entity.Building;
 import com.lmc.shopleasing.service.BoothService;
 import com.lmc.shopleasing.service.BuildingService;
 
-import tk.mybatis.mapper.entity.Condition;
-import tk.mybatis.mapper.entity.Example.Criteria;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.ResponseEntity;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,10 +45,27 @@ public class BoothController {
     	if (booth.getBuildingId()==null) {
     		return Results.badRequest("所属建筑物id不能为空");
     	}
+    	if (StringUtils.isBlank(booth.getLeaseMode())) {
+    		return Results.badRequest("租赁方式不能为空");
+    	}
     	Building building = buildingService.findById(booth.getBuildingId());
     	if (building==null) {
     		return Results.badRequest("所属建筑物不存在");
     	}
+    	String type = booth.getLeaseMode();
+    	BigDecimal annualRent = null;//年租
+    	BigDecimal monthlyRent = null;//月租
+    	if (StringUtils.equals(type, "1")) {//月租
+    		annualRent = new BigDecimal(booth.getMonthlyRent()).multiply(new BigDecimal(12)).setScale(2, BigDecimal.ROUND_HALF_UP);
+    		monthlyRent = new BigDecimal(booth.getMonthlyRent()).setScale(2, BigDecimal.ROUND_HALF_UP);
+    	} else if (StringUtils.equals(type, "2")) {//年租
+    		annualRent = new BigDecimal(booth.getAnnualRent()).setScale(2, BigDecimal.ROUND_HALF_UP);
+    		monthlyRent = new BigDecimal(booth.getAnnualRent()).divide(new BigDecimal(12), 2, BigDecimal.ROUND_HALF_DOWN).setScale(2, BigDecimal.ROUND_HALF_UP);
+    	} else {
+    		return Results.badRequest("租金类型错误");
+    	}
+    	booth.setMonthlyRent(monthlyRent.doubleValue());
+    	booth.setAnnualRent(annualRent.doubleValue());
     	booth.setBuildingId(building.getId());
     	booth.setDelFlag(false);//默认未删除
     	booth.setCreateTime(new Date());
@@ -74,6 +88,22 @@ public class BoothController {
     public ResponseEntity update(Booth booth) {
     	if (booth.getId()==null) {
     		return Results.badRequest("摊位id不能为空");
+    	}
+    	if (StringUtils.isNotBlank(booth.getLeaseMode())) {
+    		String type = booth.getLeaseMode();
+        	BigDecimal annualRent = null;//年租
+        	BigDecimal monthlyRent = null;//月租
+        	if (StringUtils.equals(type, "1")) {//月租
+        		annualRent = new BigDecimal(booth.getMonthlyRent()).multiply(new BigDecimal(12)).setScale(2, BigDecimal.ROUND_HALF_UP);
+        		monthlyRent = new BigDecimal(booth.getMonthlyRent()).setScale(2, BigDecimal.ROUND_HALF_UP);
+        	} else if (StringUtils.equals(type, "2")) {//年租
+        		annualRent = new BigDecimal(booth.getAnnualRent()).setScale(2, BigDecimal.ROUND_HALF_UP);
+        		monthlyRent = new BigDecimal(booth.getAnnualRent()).divide(new BigDecimal(12), 2, BigDecimal.ROUND_HALF_DOWN).setScale(2, BigDecimal.ROUND_HALF_UP);
+        	} else {
+        		return Results.badRequest("租金类型错误");
+        	}
+        	booth.setMonthlyRent(monthlyRent.doubleValue());
+        	booth.setAnnualRent(annualRent.doubleValue());
     	}
     	booth.setSecurityDeposit(null);
     	booth.setRenovationSecurityDeposit(null);
@@ -148,6 +178,8 @@ public class BoothController {
     	boothService.update(booth);
         return Results.OK;
     }
+    
+    
     
     
 }

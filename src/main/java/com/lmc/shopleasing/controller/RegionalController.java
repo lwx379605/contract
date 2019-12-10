@@ -5,6 +5,9 @@ import com.lmc.shopleasing.entity.SysArea;
 import com.lmc.shopleasing.service.RegionalService;
 import com.lmc.shopleasing.service.SysAreaService;
 
+import tk.mybatis.mapper.entity.Condition;
+import tk.mybatis.mapper.entity.Example.Criteria;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.ResponseEntity;
 
@@ -132,4 +135,5 @@ public class RegionalController {
         List<Regional> list = regionalService.findByCondition(map);
         return Results.success(list);
     }
+    
 }
