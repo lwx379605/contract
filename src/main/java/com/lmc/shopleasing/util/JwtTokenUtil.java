@@ -233,8 +233,7 @@ public class JwtTokenUtil implements Serializable
     */
     public boolean validateToken(String token) {
         Cache jwtCache = cacheManager.getCache("jwt");
-        final String username = getUserNameFromToken(token);
-        if (jwtCache.isKeyInCache(username)) {
+        if (jwtCache.isKeyInCache(token)) {
             //如果验证成功，说明此用户进行了一次有效操作，延长token的过期时间
 //            Element element = jwtCache.get(username);
 //            element.setTimeToIdle(expiration);

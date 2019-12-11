@@ -39,7 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter
     @Value("${jwt.header}")
     private String tokenHeader;
 
-    private static final String ORIGIN ="Origin";
+//    private static final String ORIGIN ="Origin";
 
     private AuthenticationTrustResolver trustResolver = new AuthenticationTrustResolverImpl();;
 

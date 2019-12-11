@@ -41,7 +41,7 @@ public class SuccessAuthenticationHandler implements AuthenticationSuccessHandle
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String token = jwtTokenUtil.generateToken(userDetails);
         Cache cache = cacheManager.getCache("jwt");
-        cache.put(new Element(userDetails.getUsername(), userDetails));
+        cache.put(new Element(token, userDetails.getUsername()));
         String ipAddress = ResolveIpUtil.getIpAddress(httpServletRequest);
         logger.info("用户【"+userDetails.getUsername()+"】登录成功，登录地址为："+ipAddress);
         httpServletResponse.setHeader("Authorization",token);

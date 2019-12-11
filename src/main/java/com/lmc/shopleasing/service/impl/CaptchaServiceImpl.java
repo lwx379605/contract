@@ -40,8 +40,10 @@ public class CaptchaServiceImpl implements CaptchaService {
 		Element element = cache.get(captchaId);
 		if (element != null) {
 			String value = (String) element.getObjectValue();
-			cache.remove(captchaId);
-			return StringUtils.equalsIgnoreCase(captcha, value);
+			if(StringUtils.equalsIgnoreCase(captcha, value)){
+				cache.remove(captchaId);
+				return true;
+			}
 		}
 		return false;
 	}

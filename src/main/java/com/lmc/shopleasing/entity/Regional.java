@@ -1,5 +1,6 @@
 package com.lmc.shopleasing.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -79,7 +80,7 @@ public class Regional {
     private Boolean delFlag;
     
     @Transient
-    private List<Building> buildings;
+    private List<Building> buildings = new ArrayList<>();
     
     public List<Building> getBuildings() {
 		return buildings;
