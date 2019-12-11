@@ -1,10 +1,14 @@
 package com.lmc.shopleasing.configurer;
 
 
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.alibaba.fastjson.support.config.FastJsonConfig;
+import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +16,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ResourceUtils;
 import org.springframework.validation.Validator;
@@ -25,18 +28,17 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 
 /**
  * @author lmc
  */
-@EnableWebMvc
 @Configuration
 @ComponentScan(useDefaultFilters = false, basePackages = "com.lmc.shopleasing",
         includeFilters= {@ComponentScan.Filter(classes = {Controller.class, ControllerAdvice.class})})
-public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
+public class WebMvcConfigurer implements org.springframework.web.servlet.config.annotation.WebMvcConfigurer {
 
     private final Logger logger = LoggerFactory.getLogger(WebMvcConfigurer.class);
 
@@ -85,14 +87,31 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/swagger-ui.html").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX+"/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX+"/META-INF/resources/webjars/");
         registry.addResourceHandler("/localStorage/**").addResourceLocations("file:C:/shopleasing/localStorage/");
-        super.addResourceHandlers(registry);
     }
 
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
-        jackson2HttpMessageConverter.setSupportedMediaTypes(Arrays.asList(MediaType.valueOf(jsonContentType),MediaType.valueOf(htmlContentType)));
-        converters.add(jackson2HttpMessageConverter);
+    @Bean
+    public HttpMessageConverters fastJsonHttpMessageConverters() {
+        // 1.定义一个converters转换消息的对象
+        FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverterExtension();
+        // 2.添加fastjson的配置信息，比如: 是否需要格式化返回的json数据
+        FastJsonConfig fastJsonConfig = new FastJsonConfig();
+        fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat);
+        fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
+        // 3.在converter中添加配置信息
+        fastConverter.setFastJsonConfig(fastJsonConfig);
+        // 4.将converter赋值给HttpMessageConverter
+        HttpMessageConverter<?> converter = fastConverter;
+        // 5.返回HttpMessageConverters对象
+        return new HttpMessageConverters(converter);
+    }
+
+    public class FastJsonHttpMessageConverterExtension extends FastJsonHttpMessageConverter {
+        FastJsonHttpMessageConverterExtension() {
+            List<MediaType> mediaTypes = new ArrayList<>();
+            mediaTypes.add(MediaType.valueOf(htmlContentType + ";charset=UTF-8"));
+            mediaTypes.add(MediaType.valueOf(jsonContentType + ";charset=UTF-8"));
+            setSupportedMediaTypes(mediaTypes);
+        }
     }
 
     //解决跨域问题
@@ -117,13 +136,12 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
 
         //注册拦截器
         //registry.addInterceptor(webHandlerInterceptor).addPathPatterns("/api/**").excludePathPatterns("/api/login","/api/getPublicKey","/api/getRSAEncode");
-        super.addInterceptors(registry);
     }
     
     //统一异常处理
     @Override
     public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
-        super.extendHandlerExceptionResolvers(exceptionResolvers);
+
     }
 
     @Bean
