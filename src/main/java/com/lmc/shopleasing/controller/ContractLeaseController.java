@@ -1,34 +1,33 @@
 package com.lmc.shopleasing.controller;
-import com.lmc.shopleasing.global.Results;
-import com.lmc.shopleasing.entity.Booth;
-import com.lmc.shopleasing.entity.ContractLease;
-import com.lmc.shopleasing.entity.Lessee;
-import com.lmc.shopleasing.service.BoothService;
-import com.lmc.shopleasing.service.ContractLeaseService;
-import com.lmc.shopleasing.service.LesseeService;
-
-import tk.mybatis.mapper.entity.Condition;
-import tk.mybatis.mapper.entity.Example.Criteria;
-
-import org.apache.commons.lang.StringUtils;
-import org.springframework.http.ResponseEntity;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.lmc.shopleasing.entity.Booth;
+import com.lmc.shopleasing.entity.ContractLease;
+import com.lmc.shopleasing.entity.Lessee;
+import com.lmc.shopleasing.global.Results;
+import com.lmc.shopleasing.service.BoothService;
+import com.lmc.shopleasing.service.ContractLeaseService;
+import com.lmc.shopleasing.service.LesseeService;
+
+import tk.mybatis.mapper.entity.Condition;
+import tk.mybatis.mapper.entity.Example.Criteria;
 
 /**
 * Created by lmc on 2019/11/09.
@@ -175,7 +174,7 @@ public class ContractLeaseController extends  BaseController{
     @PostMapping("/list")
     public ResponseEntity list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size, ContractLease contractLease) {
         PageHelper.startPage(page, size);
-        PageHelper.orderBy("create_time DESC");
+        PageHelper.orderBy("cl.create_time DESC");
         Map<String, Object> map = new HashMap<String, Object>();
         if (contractLease.getLesseeId()!=null) {
         	map.put("lesseeId", contractLease.getLesseeId());
