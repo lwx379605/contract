@@ -37,7 +37,7 @@
   
   <select id="findByCondition" parameterType="map" resultMap="BaseResultMap">
   	SElECT
-  		cl.*,l.legal_representative,b.name as booth_name,b.lease_start_time,b.lease_over_time,b.lease_mode,b.annual_rent,b.monthly_rent,b.renovation_security_deposit,b.hygiene_fee
+  		cl.*,l.legal_representative,b.name as booth_name,b.lease_start_time,b.lease_over_time,b.lease_mode,b.annual_rent,b.monthly_rent,b.renovation_security_deposit,b.hygiene_fee,b.security_deposit
   	FROM
   		s_contract_lease cl 
   		LEFT JOIN s_lessee l ON cl.lessee_id = l.id

@@ -59,11 +59,4 @@ public class BeanConfigurer{
 		return defaultKaptcha;
 	}
 
-	@Bean(name = "multipartResolver")
-	public MultipartResolver multipartResolver(){
-		CommonsMultipartResolver commonsMultipartResolver  = new CommonsMultipartResolver();
-		commonsMultipartResolver.setDefaultEncoding("UTF-8");
-		return commonsMultipartResolver;
-	}
-
 }

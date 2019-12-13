@@ -43,7 +43,9 @@ public class FileController extends BaseController {
 		if (StringUtils.isEmpty(url)) {
 			return Results.unprocessableEntity("file.upload.error");
 		}
-		return Results.success(url);
+		Map<String, Object> data = new HashMap<>();
+		data.put("url", url);
+		return Results.success(data);
 	}
 
 }
