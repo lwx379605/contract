@@ -108,8 +108,8 @@ public class WebMvcConfigurer implements org.springframework.web.servlet.config.
     public class FastJsonHttpMessageConverterExtension extends FastJsonHttpMessageConverter {
         FastJsonHttpMessageConverterExtension() {
             List<MediaType> mediaTypes = new ArrayList<>();
-            mediaTypes.add(MediaType.valueOf(htmlContentType + ";charset=UTF-8"));
             mediaTypes.add(MediaType.valueOf(jsonContentType + ";charset=UTF-8"));
+            mediaTypes.add(MediaType.valueOf(htmlContentType + ";charset=UTF-8"));
             setSupportedMediaTypes(mediaTypes);
         }
     }
